@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>3학년 퀴즈 - 돈암초등학교</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFF9F0;
+  --card: #FFFFFF;
+  --purple: #6C5CE7;
+  --purple-light: #A29BFE;
+  --purple-pale: #EDE9FF;
+  --teal: #00B894;
+  --teal-pale: #D4F5ED;
+  --coral: #FF7675;
+  --coral-pale: #FFE5E5;
+  --amber: #FDCB6E;
+  --amber-pale: #FFF5D6;
+  --blue: #0984E3;
+  --blue-pale: #DCF0FF;
+  --pink: #E84393;
+  --pink-pale: #FFE0F0;
+  --text: #2D3436;
+  --text2: #636E72;
+  --text3: #B2BEC3;
+  --border: #F0E8FF;
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: var(--bg); font-family: 'Nanum Gothic', sans-serif; color: var(--text); }
+
+body { display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+
+.app {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* SCREENS */
+.screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn 0.25s ease; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* HOME */
+.home-top {
+  background: var(--purple);
+  padding: 48px 24px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.home-top::before {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  background: var(--purple-light);
+  border-radius: 50%;
+  top: -60px; right: -50px;
+  opacity: 0.4;
+}
+.home-top::after {
+  content: '';
+  position: absolute;
+  width: 120px; height: 120px;
+  background: var(--purple-light);
+  border-radius: 50%;
+  bottom: -30px; left: 30px;
+  opacity: 0.25;
+}
+.home-greeting { font-size: 14px; color: var(--purple-pale); margin-bottom: 4px; position: relative; z-index: 1; }
+.home-title { font-family: 'Jua', sans-serif; font-size: 28px; color: #fff; line-height: 1.3; position: relative; z-index: 1; }
+.home-subtitle { font-size: 13px; color: var(--purple-pale); margin-top: 6px; position: relative; z-index: 1; }
+
+.streak-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.2);
+  color: #fff; font-size: 13px; font-weight: 700;
+  padding: 6px 14px; border-radius: 30px;
+  margin-top: 16px; position: relative; z-index: 1;
+}
+
+.total-progress {
+  margin: 20px 20px 0;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  border: 1.5px solid var(--border);
+}
+.tp-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+.tp-row { display: flex; align-items: center; gap: 10px; }
+.tp-bar-bg { flex: 1; height: 8px; background: #F0E8FF; border-radius: 4px; overflow: hidden; }
+.tp-bar-fill { height: 100%; background: var(--purple); border-radius: 4px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.tp-pct { font-size: 13px; font-weight: 800; color: var(--purple); min-width: 32px; text-align: right; }
+
+.section-label { font-size: 13px; font-weight: 700; color: var(--text2); padding: 18px 20px 10px; letter-spacing: 0.3px; }
+
+.subj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px 32px; }
+.subj-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  border: 1.5px solid #F5F0FF;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.subj-card:active { transform: scale(0.96); }
+.subj-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  opacity: 0.12;
+  transform: translate(20px, 20px);
+}
+.subj-icon-wrap {
+  width: 46px; height: 46px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.subj-name { font-family: 'Jua', sans-serif; font-size: 16px; color: var(--text); }
+.subj-count { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.subj-best { font-size: 11px; font-weight: 800; margin-top: 4px; }
+.subj-bar-bg { height: 3px; background: #F0EEFF; border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.subj-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+
+/* QUIZ */
+.quiz-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 52px 20px 16px;
+  background: var(--card);
+  border-bottom: 1.5px solid #F5F0FF;
+}
+.back-btn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  border: 1.5px solid #E8E0FF;
+  background: var(--bg);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--purple); font-weight: 800;
+  transition: background 0.12s, transform 0.1s;
+}
+.back-btn:active { background: var(--purple-pale); transform: scale(0.95); }
+.quiz-hdr-title { flex: 1; font-family: 'Jua', sans-serif; font-size: 18px; color: var(--text); }
+.score-chip {
+  background: var(--purple-pale); color: var(--purple);
+  font-size: 13px; font-weight: 800;
+  padding: 5px 12px; border-radius: 30px;
+}
+
+.qz-progress { padding: 14px 20px 0; background: var(--card); }
+.qz-dots { display: flex; gap: 6px; margin-bottom: 6px; }
+.qz-dot { flex: 1; height: 5px; border-radius: 3px; background: #F0EEFF; transition: background 0.3s; }
+.qz-dot.done { background: var(--purple); }
+.qz-dot.current { background: var(--purple-light); }
+.qz-step { font-size: 12px; color: var(--text2); padding-bottom: 14px; }
+
+.q-area { flex: 1; overflow-y: auto; padding: 16px 20px 20px; }
+
+.q-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  border: 1.5px solid #F5F0FF;
+  margin-bottom: 16px;
+}
+.q-text { font-size: 17px; font-weight: 700; line-height: 1.65; color: var(--text); }
+
+.opts-list { display: flex; flex-direction: column; gap: 10px; }
+.opt-btn {
+  width: 100%; text-align: left;
+  padding: 15px 18px;
+  background: var(--card);
+  border: 1.5px solid #EDE9FF;
+  border-radius: var(--radius-sm);
+  font-size: 15px; font-family: 'Nanum Gothic', sans-serif; font-weight: 700;
+  color: var(--text);
+  cursor: pointer; line-height: 1.5;
+  transition: background 0.12s, border-color 0.12s, transform 0.1s;
+  display: flex; align-items: center; gap: 12px;
+}
+.opt-num {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--purple-pale); color: var(--purple);
+  font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.12s, color 0.12s;
+}
+.opt-btn:active:not(:disabled) { transform: scale(0.98); background: #F9F6FF; }
+.opt-btn.correct { background: var(--teal-pale); border-color: var(--teal); }
+.opt-btn.correct .opt-num { background: var(--teal); color: #fff; }
+.opt-btn.wrong { background: var(--coral-pale); border-color: var(--coral); }
+.opt-btn.wrong .opt-num { background: var(--coral); color: #fff; }
+.opt-btn:disabled { cursor: default; }
+
+.fb-card {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  margin-top: 14px;
+  font-size: 14px; font-weight: 700; line-height: 1.6;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.fb-card.correct { background: var(--teal-pale); color: #006954; border: 1.5px solid #00B894; }
+.fb-card.wrong { background: var(--coral-pale); color: #c0392b; border: 1.5px solid var(--coral); }
+.fb-icon { font-size: 20px; flex-shrink: 0; }
+
+.bottom-bar {
+  padding: 16px 20px 32px;
+  background: var(--card);
+  border-top: 1.5px solid #F5F0FF;
+}
+.next-btn {
+  width: 100%; padding: 16px;
+  background: var(--purple);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; font-family: 'Jua', sans-serif; font-size: 17px;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.1s, opacity 0.12s;
+}
+.next-btn:active:not(:disabled) { transform: scale(0.98); background: #5A4ED1; }
+.next-btn:disabled { background: #E0D8FF; color: var(--purple-light); cursor: default; }
+
+/* RESULT */
+.result-screen {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--bg);
+}
+.result-top {
+  background: linear-gradient(150deg, var(--purple) 0%, #9B59B6 100%);
+  padding: 52px 24px 40px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.result-top::before {
+  content: '';
+  position: absolute;
+  width: 250px; height: 250px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  top: -80px; right: -60px;
+}
+.result-stars { font-size: 44px; letter-spacing: 6px; position: relative; z-index: 1; margin-bottom: 8px; }
+.result-score { font-family: 'Jua', sans-serif; font-size: 64px; color: #fff; position: relative; z-index: 1; line-height: 1; }
+.result-sub { font-size: 14px; color: var(--purple-pale); margin-top: 6px; position: relative; z-index: 1; }
+.result-msg { font-family: 'Jua', sans-serif; font-size: 20px; color: #fff; margin-top: 10px; position: relative; z-index: 1; }
+
+.result-body { flex: 1; padding: 20px; overflow-y: auto; }
+
+.wrong-section {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  border: 1.5px solid #F5F0FF;
+  margin-bottom: 16px;
+}
+.wrong-section-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+.wrong-item {
+  padding: 10px 0;
+  border-top: 1px solid #F5F0FF;
+  font-size: 13px; color: var(--text2); line-height: 1.7;
+}
+.wrong-ans { color: var(--teal); font-weight: 800; }
+
+.result-actions { display: flex; flex-direction: column; gap: 10px; padding-bottom: 16px; }
+.r-btn {
+  width: 100%; padding: 16px;
+  border-radius: var(--radius-sm);
+  font-family: 'Jua', sans-serif; font-size: 17px;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.12s;
+}
+.r-btn:active { transform: scale(0.98); }
+.r-btn.primary { background: var(--purple); border: none; color: #fff; }
+.r-btn.secondary { background: var(--card); border: 1.5px solid #E8E0FF; color: var(--purple); }
+
+/* Scroll */
+::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <div id="home" class="screen active">
+    <div class="home-top">
+      <p class="home-greeting">안녕하세요! 👋</p>
+      <h1 class="home-title">돈암초등학교<br>3학년 퀴즈</h1>
+      <p class="home-subtitle">교과목을 선택하고 도전해보세요!</p>
+      <div class="streak-badge">🔥 오늘도 공부 도전!</div>
+    </div>
+
+    <div class="total-progress">
+      <p class="tp-label">전체 학습 진행률</p>
+      <div class="tp-row">
+        <div class="tp-bar-bg"><div class="tp-bar-fill" id="total-prog" style="width:0%"></div></div>
+        <span class="tp-pct" id="total-pct">0%</span>
+      </div>
+    </div>
+
+    <p class="section-label">📚 과목 선택</p>
+    <div class="subj-grid" id="subj-grid"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="screen">
+    <div class="quiz-header">
+      <button class="back-btn" id="back-btn">&#8592;</button>
+      <span class="quiz-hdr-title" id="qz-title"></span>
+      <span class="score-chip" id="qz-score">0점</span>
+    </div>
+    <div class="qz-progress">
+      <div class="qz-dots" id="qz-dots"></div>
+      <p class="qz-step" id="qz-step">1 / 5 문제</p>
+    </div>
+    <div class="q-area" id="q-area">
+      <div class="q-card"><p class="q-text" id="q-text"></p></div>
+      <div class="opts-list" id="opts-list"></div>
+      <div id="fb-area"></div>
+    </div>
+    <div class="bottom-bar">
+      <button class="next-btn" id="next-btn" disabled>다음 문제</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="screen">
+    <div class="result-top">
+      <div class="result-stars" id="r-stars">⭐⭐⭐</div>
+      <div class="result-score" id="r-score">100점</div>
+      <div class="result-sub" id="r-sub">5문제 중 5개 정답</div>
+      <div class="result-msg" id="r-msg">완벽해요!</div>
+    </div>
+    <div class="result-body">
+      <div class="wrong-section" id="wrong-section" style="display:none">
+        <p class="wrong-section-title">🔍 틀린 문제 복습</p>
+        <div id="wrong-list"></div>
+      </div>
+      <div class="result-actions">
+        <button class="r-btn primary" id="retry-btn">다시 풀기 🔄</button>
+        <button class="r-btn secondary" id="home-btn">다른 과목 선택</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SUBJECTS = {
+  math: {
+    name: "수학", icon: "🔢",
+    bg: "#EDE9FF", iconBg: "#CECBF6", barColor: "#6C5CE7",
+    qs: [
+      { q: "153 + 274 = ?", opts: ["417","427","437","447"], ans: 1, ex: "153 + 274 = 427이에요. 일의 자리부터 차례로 더해요!" },
+      { q: "8 × 7 = ?", opts: ["54","56","58","63"], ans: 1, ex: "8 × 7 = 56이에요. 구구단 8단을 외워봐요!" },
+      { q: "24 ÷ 6 = ?", opts: ["3","4","5","6"], ans: 1, ex: "24 ÷ 6 = 4예요. 6 × 4 = 24이니까요!" },
+      { q: "1/2 과 2/4 의 크기를 비교하면?", opts: ["1/2이 더 크다","2/4가 더 크다","같다","비교 불가"], ans: 2, ex: "1/2 = 2/4로 크기가 같아요! 분모와 분자에 같은 수를 곱해도 분수 크기는 변하지 않아요." },
+      { q: "삼각형 세 각의 합은 몇 도일까요?", opts: ["90도","180도","270도","360도"], ans: 1, ex: "삼각형의 세 각의 합은 항상 180도예요!" },
+      { q: "356에서 백의 자리 숫자는?", opts: ["3","5","6","35"], ans: 0, ex: "맨 왼쪽 숫자 3이 백의 자리예요. 356 = 300 + 50 + 6이에요." },
+      { q: "소수 0.5를 분수로 나타내면?", opts: ["1/4","1/3","1/2","2/3"], ans: 2, ex: "0.5 = 5/10 = 1/2이에요!" }
+    ]
+  },
+  korean: {
+    name: "국어", icon: "📖",
+    bg: "#D4F5ED", iconBg: "#9FE1CB", barColor: "#00B894",
+    qs: [
+      { q: "낱말의 뜻을 찾는 올바른 방법이 아닌 것은?", opts: ["국어사전 이용","앞뒤 문장으로 추측","무조건 외운다","선생님께 여쭤본다"], ans: 2, ex: "낱말의 뜻은 사전, 문맥, 질문 등으로 찾아요. 무조건 외우는 건 좋지 않아요." },
+      { q: "일기에서 꼭 필요하지 않은 것은?", opts: ["날짜","날씨","그림","있었던 일"], ans: 2, ex: "그림은 넣을 수 있지만 필수는 아니에요. 날짜·날씨·있었던 일이 기본 요소예요." },
+      { q: "'주장하는 글'에 해당하는 것은?", opts: ["동화","일기","독후감","의견 발표문"], ans: 3, ex: "의견 발표문은 자신의 주장을 내세우는 글이에요!" },
+      { q: "다음 중 받침이 있는 글자는?", opts: ["나","가","산","오"], ans: 2, ex: "'산'에는 'ㄴ' 받침이 있어요. 받침은 글자 아래에 오는 자음이에요." },
+      { q: "독서 감상문에서 가장 중요한 것은?", opts: ["줄거리만 쓰기","책 정보 쓰기","자신의 생각과 느낌 쓰기","그림 그리기"], ans: 2, ex: "독서 감상문은 자신의 생각과 느낌을 담는 것이 가장 중요해요!" }
+    ]
+  },
+  science: {
+    name: "과학", icon: "🔬",
+    bg: "#FFF5D6", iconBg: "#FAC775", barColor: "#FDCB6E",
+    qs: [
+      { q: "나비의 한살이 순서로 알맞은 것은?", opts: ["알→성충→번데기→애벌레","알→애벌레→번데기→성충","알→번데기→애벌레→성충","성충→알→애벌레"], ans: 1, ex: "나비의 한살이: 알 → 애벌레 → 번데기 → 성충(나비)이에요!" },
+      { q: "식물이 자라는 데 필요하지 않은 것은?", opts: ["물","햇빛","흙","소금"], ans: 3, ex: "식물은 물, 햇빛, 흙, 공기가 필요해요. 소금은 필요 없어요." },
+      { q: "물이 얼면 부피가 어떻게 될까요?", opts: ["줄어든다","늘어난다","변하지 않는다","색이 변한다"], ans: 1, ex: "물이 얼음이 되면 부피가 약간 늘어나요. 겨울에 수도관이 터지는 이유예요!" },
+      { q: "자석에 붙는 물질은?", opts: ["나무","플라스틱","철","종이"], ans: 2, ex: "자석에는 철, 니켈 등 일부 금속만 붙어요. 나무·종이·플라스틱은 붙지 않아요." },
+      { q: "지구가 태양을 한 바퀴 도는 시간은?", opts: ["하루","한 달","1년","10년"], ans: 2, ex: "지구 공전 주기는 약 365일(1년)이에요. 이를 '공전'이라고 해요!" }
+    ]
+  },
+  social: {
+    name: "사회", icon: "🌏",
+    bg: "#FFE5E5", iconBg: "#FFBDBD", barColor: "#FF7675",
+    qs: [
+      { q: "고장의 중요한 장소를 표시한 그림은?", opts: ["일기","지도","그림일기","사진첩"], ans: 1, ex: "지도는 우리 고장의 모습을 위에서 내려다본 것처럼 나타낸 그림이에요." },
+      { q: "지도에서 실제 거리를 줄인 정도를 나타내는 것은?", opts: ["방위","축척","범례","등고선"], ans: 1, ex: "축척은 실제 거리를 지도에서 얼마나 줄여 나타냈는지 보여줘요." },
+      { q: "옛날 사람들이 사용하던 물건은?", opts: ["스마트폰","냉장고","맷돌","전기밥솥"], ans: 2, ex: "맷돌은 옛날에 곡식을 갈던 도구예요. 지금은 기계로 대신해요." },
+      { q: "교통수단이 발달하면 어떤 점이 좋을까요?", opts: ["이동 시간이 길어진다","더 멀리 빨리 갈 수 있다","운동을 더 많이 하게 된다","집에 더 많이 있게 된다"], ans: 1, ex: "교통수단이 발달하면 먼 곳까지 빠르게 이동할 수 있어요!" }
+    ]
+  },
+  english: {
+    name: "영어", icon: "🔤",
+    bg: "#DCF0FF", iconBg: "#85B7EB", barColor: "#0984E3",
+    qs: [
+      { q: "What color is the sky?\n(하늘은 무슨 색인가요?)", opts: ["Red","Blue","Green","Yellow"], ans: 1, ex: "The sky is blue! 하늘은 파란색이에요." },
+      { q: "'사과'를 영어로 하면?", opts: ["Orange","Banana","Apple","Grape"], ans: 2, ex: "사과는 영어로 'Apple'이에요." },
+      { q: "숫자 7을 영어로 하면?", opts: ["Five","Six","Seven","Eight"], ans: 2, ex: "7은 영어로 'Seven'이에요." },
+      { q: "'안녕하세요'를 영어로 하면?", opts: ["Thank you","Hello","Goodbye","Sorry"], ans: 1, ex: "'Hello'는 '안녕하세요'라는 뜻이에요!" },
+      { q: "다음 중 동물 이름이 아닌 것은?", opts: ["Cat","Dog","Chair","Bird"], ans: 2, ex: "'Chair'는 의자예요. Cat(고양이), Dog(강아지), Bird(새)는 모두 동물이에요." }
+    ]
+  },
+  music: {
+    name: "음악", icon: "🎵",
+    bg: "#FFE0F0", iconBg: "#F4C0D1", barColor: "#E84393",
+    qs: [
+      { q: "음의 높낮이를 나타내는 기호는?", opts: ["박자표","음자리표","쉼표","이음줄"], ans: 1, ex: "음자리표는 음의 높낮이를 나타내는 기호예요. 높은음자리표·낮은음자리표가 있어요." },
+      { q: "4분음표 1개와 박자가 같은 것은?", opts: ["온음표","2분음표","8분음표 2개","16분음표 1개"], ans: 2, ex: "8분음표 1개는 4분음표의 절반이므로, 2개를 합치면 4분음표 1개와 같아요." },
+      { q: "박자를 세는 기구는?", opts: ["피아노","메트로놈","바이올린","플루트"], ans: 1, ex: "메트로놈은 일정한 박자를 소리로 알려주는 기구예요!" }
+    ]
+  }
+};
+
+const bestScores = {};
+let curSubj = null, shuffledQs = [], curIdx = 0, score = 0, wrongQs = [], answered = false;
+
+function $(id) { return document.getElementById(id); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildHome() {
+  const grid = $('subj-grid');
+  grid.innerHTML = '';
+  const total = Object.keys(SUBJECTS).length;
+  const done = Object.keys(bestScores).length;
+  const pct = Math.round(done / total * 100);
+  $('total-prog').style.width = pct + '%';
+  $('total-pct').textContent = pct + '%';
+
+  Object.entries(SUBJECTS).forEach(([key, s]) => {
+    const best = bestScores[key] ?? null;
+    const card = document.createElement('div');
+    card.className = 'subj-card';
+    card.style.setProperty('--subj-color', s.bg);
+    card.innerHTML = `
+      <div class="subj-icon-wrap" style="background:${s.iconBg}">${s.icon}</div>
+      <div class="subj-name">${s.name}</div>
+      <div class="subj-count">${s.qs.length}문제</div>
+      <div class="subj-best" style="color:${s.barColor}">${best !== null ? '최고 ' + best + '점' : '도전해보세요!'}</div>
+      <div class="subj-bar-bg"><div class="subj-bar-fill" style="background:${s.barColor};width:${best !== null ? best : 0}%"></div></div>
+    `;
+    card.onclick = () => startQuiz(key);
+    grid.appendChild(card);
+  });
+}
+
+function startQuiz(key) {
+  curSubj = key;
+  const s = SUBJECTS[key];
+  shuffledQs = shuffle(s.qs).slice(0, 5);
+  curIdx = 0; score = 0; wrongQs = []; answered = false;
+  $('qz-title').textContent = s.icon + ' ' + s.name;
+  $('qz-score').textContent = '0점';
+  showScreen('quiz');
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = shuffledQs[curIdx];
+  const total = shuffledQs.length;
+  $('qz-step').textContent = (curIdx + 1) + ' / ' + total + ' 문제';
+  $('next-btn').textContent = curIdx === total - 1 ? '결과 보기 🎉' : '다음 문제 →';
+  $('next-btn').disabled = true;
+
+  const dots = $('qz-dots');
+  dots.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'qz-dot' + (i < curIdx ? ' done' : i === curIdx ? ' current' : '');
+    dots.appendChild(d);
+  }
+
+  $('q-text').textContent = q.q;
+  $('fb-area').innerHTML = '';
+
+  const opts = $('opts-list');
+  opts.innerHTML = '';
+  const labels = ['①','②','③','④'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-num">${labels[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => pickAnswer(i, btn, q);
+    opts.appendChild(btn);
+  });
+
+  $('q-area').scrollTop = 0;
+}
+
+function pickAnswer(idx, btn, q) {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+
+  const ok = idx === q.ans;
+  btn.classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) document.querySelectorAll('.opt-btn')[q.ans].classList.add('correct');
+  if (ok) score += 20; else wrongQs.push(q);
+  $('qz-score').textContent = score + '점';
+
+  const fb = document.createElement('div');
+  fb.className = 'fb-card ' + (ok ? 'correct' : 'wrong');
+  fb.innerHTML = `<span class="fb-icon">${ok ? '🎉' : '😅'}</span><span>${ok ? '정답이에요! ' : '아쉬워요! '}${q.ex}</span>`;
+  $('fb-area').appendChild(fb);
+  $('next-btn').disabled = false;
+
+  setTimeout(() => {
+    $('q-area').scrollTo({ top: $('q-area').scrollHeight, behavior: 'smooth' });
+  }, 100);
+}
+
+$('next-btn').onclick = () => {
+  curIdx++;
+  if (curIdx >= shuffledQs.length) showResult();
+  else renderQ();
+};
+
+$('back-btn').onclick = () => { showScreen('home'); buildHome(); };
+
+function showResult() {
+  if (bestScores[curSubj] == null || score > bestScores[curSubj]) bestScores[curSubj] = score;
+  showScreen('result');
+  const total = shuffledQs.length, correct = total - wrongQs.length;
+  $('r-score').textContent = score + '점';
+  $('r-sub').textContent = total + '문제 중 ' + correct + '개 정답';
+
+  let stars = '⭐⭐⭐', msg = '완벽해요! 대단해요! 🏆';
+  if (score < 40) { stars = '⭐'; msg = '조금 더 공부해볼까요? 💪'; }
+  else if (score < 80) { stars = '⭐⭐'; msg = '잘하고 있어요! 조금만 더! 🌟'; }
+  $('r-stars').textContent = stars;
+  $('r-msg').textContent = msg;
+
+  const ws = $('wrong-section');
+  if (wrongQs.length > 0) {
+    ws.style.display = 'block';
+    $('wrong-list').innerHTML = wrongQs.map(q =>
+      `<div class="wrong-item">📌 ${q.q}<br><span class="wrong-ans">✅ 정답: ${q.opts[q.ans]}</span></div>`
+    ).join('');
+  } else {
+    ws.style.display = 'none';
+  }
+}
+
+$('retry-btn').onclick = () => startQuiz(curSubj);
+$('home-btn').onclick = () => { showScreen('home'); buildHome(); };
+
+buildHome();
+</script>
+</body>
+</html>
