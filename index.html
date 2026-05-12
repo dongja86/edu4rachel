@@ -22,6 +22,7 @@
   --blue-pale: #DCF0FF;
   --pink: #E84393;
   --pink-pale: #FFE0F0;
+  --gold: #F39C12;
   --text: #2D3436;
   --text2: #636E72;
   --text3: #B2BEC3;
@@ -30,278 +31,212 @@
   --radius-sm: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; background: var(--bg); font-family: 'Nanum Gothic', sans-serif; color: var(--text); }
+html, body { background: var(--bg); font-family: 'Nanum Gothic', sans-serif; color: var(--text); }
+body { display: flex; justify-content: center; min-height: 100vh; }
+.app { width: 100%; max-width: 430px; min-height: 100vh; background: var(--bg); }
 
-body { display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
-
-.app {
-  width: 100%;
-  max-width: 430px;
-  min-height: 100vh;
-  background: var(--bg);
-  position: relative;
-  overflow: hidden;
-}
-
-/* SCREENS */
 .screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn 0.25s ease; }
 .screen.active { display: flex; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-/* HOME */
+/* ── HOME ── */
 .home-top {
-  background: var(--purple);
-  padding: 48px 24px 32px;
-  position: relative;
-  overflow: hidden;
+  background: var(--purple); padding: 52px 24px 28px;
+  position: relative; overflow: hidden;
 }
-.home-top::before {
-  content: '';
-  position: absolute;
-  width: 200px; height: 200px;
-  background: var(--purple-light);
-  border-radius: 50%;
-  top: -60px; right: -50px;
-  opacity: 0.4;
-}
-.home-top::after {
-  content: '';
-  position: absolute;
-  width: 120px; height: 120px;
-  background: var(--purple-light);
-  border-radius: 50%;
-  bottom: -30px; left: 30px;
-  opacity: 0.25;
-}
-.home-greeting { font-size: 14px; color: var(--purple-pale); margin-bottom: 4px; position: relative; z-index: 1; }
-.home-title { font-family: 'Jua', sans-serif; font-size: 28px; color: #fff; line-height: 1.3; position: relative; z-index: 1; }
-.home-subtitle { font-size: 13px; color: var(--purple-pale); margin-top: 6px; position: relative; z-index: 1; }
+.home-top::before { content:''; position:absolute; width:200px; height:200px; background:var(--purple-light); border-radius:50%; top:-60px; right:-50px; opacity:.4; }
+.home-top::after  { content:''; position:absolute; width:120px; height:120px; background:var(--purple-light); border-radius:50%; bottom:-30px; left:30px; opacity:.25; }
+.home-greeting { font-size:13px; color:var(--purple-pale); position:relative; z-index:1; }
+.home-title { font-family:'Jua',sans-serif; font-size:26px; color:#fff; line-height:1.3; position:relative; z-index:1; margin-top:2px; }
+.home-date  { font-size:12px; color:var(--purple-pale); margin-top:4px; position:relative; z-index:1; }
+.streak-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.2); color:#fff; font-size:12px; font-weight:700; padding:5px 12px; border-radius:30px; margin-top:12px; position:relative; z-index:1; }
 
-.streak-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.2);
-  color: #fff; font-size: 13px; font-weight: 700;
-  padding: 6px 14px; border-radius: 30px;
-  margin-top: 16px; position: relative; z-index: 1;
-}
-
-.total-progress {
-  margin: 20px 20px 0;
+/* 포인트 박스 */
+.point-box {
+  margin: 16px 20px 0;
   background: var(--card);
   border-radius: var(--radius);
   padding: 16px 18px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid #F5EDFF;
+  display: flex; gap: 0;
 }
-.tp-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
-.tp-row { display: flex; align-items: center; gap: 10px; }
-.tp-bar-bg { flex: 1; height: 8px; background: #F0E8FF; border-radius: 4px; overflow: hidden; }
-.tp-bar-fill { height: 100%; background: var(--purple); border-radius: 4px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
-.tp-pct { font-size: 13px; font-weight: 800; color: var(--purple); min-width: 32px; text-align: right; }
+.point-cell { flex:1; text-align:center; }
+.point-cell + .point-cell { border-left: 1px solid #EDE8FF; }
+.point-label { font-size:11px; color:var(--text2); margin-bottom:4px; }
+.point-val { font-family:'Jua',sans-serif; font-size:26px; color:var(--purple); }
+.point-unit { font-size:11px; color:var(--text2); margin-left:2px; }
 
-.section-label { font-size: 13px; font-weight: 700; color: var(--text2); padding: 18px 20px 10px; letter-spacing: 0.3px; }
+.total-progress {
+  margin: 12px 20px 0; background:var(--card);
+  border-radius:var(--radius); padding:14px 18px; border:1.5px solid var(--border);
+}
+.tp-label { font-size:12px; color:var(--text2); margin-bottom:6px; }
+.tp-row { display:flex; align-items:center; gap:10px; }
+.tp-bar-bg { flex:1; height:7px; background:#F0E8FF; border-radius:4px; overflow:hidden; }
+.tp-bar-fill { height:100%; background:var(--purple); border-radius:4px; transition:width .5s cubic-bezier(.4,0,.2,1); }
+.tp-pct { font-size:13px; font-weight:800; color:var(--purple); min-width:32px; text-align:right; }
 
-.subj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px 32px; }
+.section-label { font-size:13px; font-weight:700; color:var(--text2); padding:16px 20px 8px; }
+.subj-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 16px; }
 .subj-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 18px 16px;
-  border: 1.5px solid #F5F0FF;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  position: relative;
-  overflow: hidden;
+  background:var(--card); border-radius:var(--radius); padding:16px 14px;
+  border:1.5px solid #F5F0FF; cursor:pointer;
+  transition:transform .15s; position:relative; overflow:hidden;
 }
-.subj-card:active { transform: scale(0.96); }
-.subj-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  opacity: 0.12;
-  transform: translate(20px, 20px);
-}
-.subj-icon-wrap {
-  width: 46px; height: 46px;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-.subj-name { font-family: 'Jua', sans-serif; font-size: 16px; color: var(--text); }
-.subj-count { font-size: 11px; color: var(--text2); margin-top: 2px; }
-.subj-best { font-size: 11px; font-weight: 800; margin-top: 4px; }
-.subj-bar-bg { height: 3px; background: #F0EEFF; border-radius: 2px; margin-top: 10px; overflow: hidden; }
-.subj-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+.subj-card:active { transform:scale(0.96); }
+.subj-card.done-today { border-color:#B7E4D0; }
+.done-check { position:absolute; top:10px; right:10px; font-size:16px; }
+.subj-icon-wrap { width:44px; height:44px; border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:8px; }
+.subj-name { font-family:'Jua',sans-serif; font-size:15px; color:var(--text); }
+.subj-count { font-size:11px; color:var(--text2); margin-top:2px; }
+.subj-best { font-size:11px; font-weight:800; margin-top:4px; }
+.subj-bar-bg { height:3px; background:#F0EEFF; border-radius:2px; margin-top:8px; overflow:hidden; }
+.subj-bar-fill { height:100%; border-radius:2px; transition:width .5s; }
 
-/* QUIZ */
-.quiz-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 52px 20px 16px;
-  background: var(--card);
-  border-bottom: 1.5px solid #F5F0FF;
+/* history btn */
+.hist-btn {
+  margin: 4px 20px 24px; width: calc(100% - 40px);
+  padding: 13px; background: var(--card);
+  border: 1.5px solid #E8E0FF; border-radius: var(--radius-sm);
+  font-family:'Nanum Gothic',sans-serif; font-size:14px; font-weight:700;
+  color: var(--purple); cursor:pointer;
+  transition: background .12s;
 }
-.back-btn {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  border: 1.5px solid #E8E0FF;
-  background: var(--bg);
-  font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--purple); font-weight: 800;
-  transition: background 0.12s, transform 0.1s;
-}
-.back-btn:active { background: var(--purple-pale); transform: scale(0.95); }
-.quiz-hdr-title { flex: 1; font-family: 'Jua', sans-serif; font-size: 18px; color: var(--text); }
-.score-chip {
-  background: var(--purple-pale); color: var(--purple);
-  font-size: 13px; font-weight: 800;
-  padding: 5px 12px; border-radius: 30px;
-}
+.hist-btn:active { background: var(--purple-pale); }
 
-.qz-progress { padding: 14px 20px 0; background: var(--card); }
-.qz-dots { display: flex; gap: 6px; margin-bottom: 6px; }
-.qz-dot { flex: 1; height: 5px; border-radius: 3px; background: #F0EEFF; transition: background 0.3s; }
-.qz-dot.done { background: var(--purple); }
-.qz-dot.current { background: var(--purple-light); }
-.qz-step { font-size: 12px; color: var(--text2); padding-bottom: 14px; }
+/* ── QUIZ ── */
+.quiz-header { display:flex; align-items:center; gap:12px; padding:52px 20px 14px; background:var(--card); border-bottom:1.5px solid #F5F0FF; }
+.back-btn { width:40px; height:40px; border-radius:12px; border:1.5px solid #E8E0FF; background:var(--bg); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--purple); font-weight:800; transition:background .12s, transform .1s; }
+.back-btn:active { background:var(--purple-pale); transform:scale(.95); }
+.quiz-hdr-title { flex:1; font-family:'Jua',sans-serif; font-size:17px; color:var(--text); }
+.score-chip { background:var(--purple-pale); color:var(--purple); font-size:13px; font-weight:800; padding:4px 12px; border-radius:30px; }
 
-.q-area { flex: 1; overflow-y: auto; padding: 16px 20px 20px; }
+.qz-progress { padding:12px 20px 0; background:var(--card); }
+.qz-dots { display:flex; gap:5px; margin-bottom:5px; }
+.qz-dot { flex:1; height:5px; border-radius:3px; background:#F0EEFF; transition:background .3s; }
+.qz-dot.done { background:var(--purple); }
+.qz-dot.current { background:var(--purple-light); }
+.qz-step { font-size:12px; color:var(--text2); padding-bottom:12px; }
 
-.q-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 22px 20px;
-  border: 1.5px solid #F5F0FF;
-  margin-bottom: 16px;
-}
-.q-text { font-size: 17px; font-weight: 700; line-height: 1.65; color: var(--text); }
+.q-area { flex:1; overflow-y:auto; padding:14px 20px 20px; }
+.q-card { background:var(--card); border-radius:var(--radius); padding:20px 18px; border:1.5px solid #F5F0FF; margin-bottom:14px; }
+.q-text { font-size:16px; font-weight:700; line-height:1.65; color:var(--text); white-space:pre-wrap; }
 
-.opts-list { display: flex; flex-direction: column; gap: 10px; }
+.opts-list { display:flex; flex-direction:column; gap:9px; }
 .opt-btn {
-  width: 100%; text-align: left;
-  padding: 15px 18px;
-  background: var(--card);
-  border: 1.5px solid #EDE9FF;
-  border-radius: var(--radius-sm);
-  font-size: 15px; font-family: 'Nanum Gothic', sans-serif; font-weight: 700;
-  color: var(--text);
-  cursor: pointer; line-height: 1.5;
-  transition: background 0.12s, border-color 0.12s, transform 0.1s;
-  display: flex; align-items: center; gap: 12px;
+  width:100%; text-align:left; padding:14px 16px;
+  background:var(--card); border:1.5px solid #EDE9FF; border-radius:var(--radius-sm);
+  font-size:14px; font-family:'Nanum Gothic',sans-serif; font-weight:700; color:var(--text);
+  cursor:pointer; line-height:1.5;
+  transition:background .12s, border-color .12s, transform .1s;
+  display:flex; align-items:center; gap:10px;
 }
-.opt-num {
-  width: 28px; height: 28px; border-radius: 8px;
-  background: var(--purple-pale); color: var(--purple);
-  font-size: 13px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: background 0.12s, color 0.12s;
-}
-.opt-btn:active:not(:disabled) { transform: scale(0.98); background: #F9F6FF; }
-.opt-btn.correct { background: var(--teal-pale); border-color: var(--teal); }
-.opt-btn.correct .opt-num { background: var(--teal); color: #fff; }
-.opt-btn.wrong { background: var(--coral-pale); border-color: var(--coral); }
-.opt-btn.wrong .opt-num { background: var(--coral); color: #fff; }
-.opt-btn:disabled { cursor: default; }
+.opt-num { width:28px; height:28px; border-radius:8px; background:var(--purple-pale); color:var(--purple); font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .12s, color .12s; }
+.opt-btn:active:not(:disabled) { transform:scale(.98); background:#F9F6FF; }
+.opt-btn.correct { background:var(--teal-pale); border-color:var(--teal); }
+.opt-btn.correct .opt-num { background:var(--teal); color:#fff; }
+.opt-btn.wrong { background:var(--coral-pale); border-color:var(--coral); }
+.opt-btn.wrong .opt-num { background:var(--coral); color:#fff; }
+.opt-btn:disabled { cursor:default; }
 
-.fb-card {
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  margin-top: 14px;
-  font-size: 14px; font-weight: 700; line-height: 1.6;
-  display: flex; gap: 10px; align-items: flex-start;
-}
-.fb-card.correct { background: var(--teal-pale); color: #006954; border: 1.5px solid #00B894; }
-.fb-card.wrong { background: var(--coral-pale); color: #c0392b; border: 1.5px solid var(--coral); }
-.fb-icon { font-size: 20px; flex-shrink: 0; }
+.fb-card { padding:12px 14px; border-radius:var(--radius-sm); margin-top:12px; font-size:13px; font-weight:700; line-height:1.6; display:flex; gap:8px; align-items:flex-start; }
+.fb-card.correct { background:var(--teal-pale); color:#006954; border:1.5px solid var(--teal); }
+.fb-card.wrong { background:var(--coral-pale); color:#c0392b; border:1.5px solid var(--coral); }
+.fb-icon { font-size:18px; flex-shrink:0; }
 
-.bottom-bar {
-  padding: 16px 20px 32px;
-  background: var(--card);
-  border-top: 1.5px solid #F5F0FF;
-}
-.next-btn {
-  width: 100%; padding: 16px;
-  background: var(--purple);
-  border: none; border-radius: var(--radius-sm);
-  color: #fff; font-family: 'Jua', sans-serif; font-size: 17px;
-  cursor: pointer;
-  transition: background 0.12s, transform 0.1s, opacity 0.12s;
-}
-.next-btn:active:not(:disabled) { transform: scale(0.98); background: #5A4ED1; }
-.next-btn:disabled { background: #E0D8FF; color: var(--purple-light); cursor: default; }
+.bottom-bar { padding:14px 20px 32px; background:var(--card); border-top:1.5px solid #F5F0FF; }
+.next-btn { width:100%; padding:15px; background:var(--purple); border:none; border-radius:var(--radius-sm); color:#fff; font-family:'Jua',sans-serif; font-size:16px; cursor:pointer; transition:background .12s, transform .1s, opacity .12s; }
+.next-btn:active:not(:disabled) { transform:scale(.98); background:#5A4ED1; }
+.next-btn:disabled { background:#E0D8FF; color:var(--purple-light); cursor:default; }
 
-/* RESULT */
-.result-screen {
-  flex: 1; display: flex; flex-direction: column;
-  background: var(--bg);
-}
-.result-top {
-  background: linear-gradient(150deg, var(--purple) 0%, #9B59B6 100%);
-  padding: 52px 24px 40px;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.result-top::before {
-  content: '';
-  position: absolute;
-  width: 250px; height: 250px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50%;
-  top: -80px; right: -60px;
-}
-.result-stars { font-size: 44px; letter-spacing: 6px; position: relative; z-index: 1; margin-bottom: 8px; }
-.result-score { font-family: 'Jua', sans-serif; font-size: 64px; color: #fff; position: relative; z-index: 1; line-height: 1; }
-.result-sub { font-size: 14px; color: var(--purple-pale); margin-top: 6px; position: relative; z-index: 1; }
-.result-msg { font-family: 'Jua', sans-serif; font-size: 20px; color: #fff; margin-top: 10px; position: relative; z-index: 1; }
+/* ── RESULT ── */
+.result-top { background:linear-gradient(150deg,var(--purple) 0%,#9B59B6 100%); padding:52px 24px 36px; text-align:center; position:relative; overflow:hidden; }
+.result-top::before { content:''; position:absolute; width:250px; height:250px; background:rgba(255,255,255,.1); border-radius:50%; top:-80px; right:-60px; }
+.result-stars { font-size:40px; letter-spacing:5px; position:relative; z-index:1; margin-bottom:6px; }
+.result-score { font-family:'Jua',sans-serif; font-size:60px; color:#fff; position:relative; z-index:1; line-height:1; }
+.result-sub { font-size:13px; color:var(--purple-pale); margin-top:4px; position:relative; z-index:1; }
+.result-msg { font-family:'Jua',sans-serif; font-size:18px; color:#fff; margin-top:10px; position:relative; z-index:1; }
 
-.result-body { flex: 1; padding: 20px; overflow-y: auto; }
-
-.wrong-section {
-  background: var(--card);
+/* 포인트 획득 배너 */
+.point-banner {
+  margin: 14px 20px 0;
+  padding: 14px 18px;
   border-radius: var(--radius);
-  padding: 18px;
-  border: 1.5px solid #F5F0FF;
-  margin-bottom: 16px;
+  display:flex; align-items:center; gap:12px;
 }
-.wrong-section-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
-.wrong-item {
-  padding: 10px 0;
-  border-top: 1px solid #F5F0FF;
-  font-size: 13px; color: var(--text2); line-height: 1.7;
-}
-.wrong-ans { color: var(--teal); font-weight: 800; }
+.point-banner.earn  { background:#FFF8E7; border:1.5px solid #F3CC5A; }
+.point-banner.none  { background:#F5F5F5; border:1.5px solid #DDD; }
+.point-banner-icon { font-size:28px; }
+.point-banner-text { flex:1; }
+.point-banner-title { font-family:'Jua',sans-serif; font-size:15px; color:var(--text); }
+.point-banner-sub   { font-size:12px; color:var(--text2); margin-top:2px; }
 
-.result-actions { display: flex; flex-direction: column; gap: 10px; padding-bottom: 16px; }
-.r-btn {
-  width: 100%; padding: 16px;
-  border-radius: var(--radius-sm);
-  font-family: 'Jua', sans-serif; font-size: 17px;
-  cursor: pointer;
-  transition: transform 0.1s, opacity 0.12s;
-}
-.r-btn:active { transform: scale(0.98); }
-.r-btn.primary { background: var(--purple); border: none; color: #fff; }
-.r-btn.secondary { background: var(--card); border: 1.5px solid #E8E0FF; color: var(--purple); }
+.result-body { flex:1; padding:0 20px 20px; overflow-y:auto; }
+.wrong-section { background:var(--card); border-radius:var(--radius); padding:16px; border:1.5px solid #F5F0FF; margin-top:14px; }
+.wrong-section-title { font-size:13px; font-weight:800; color:var(--text); margin-bottom:10px; }
+.wrong-item { padding:8px 0; border-top:1px solid #F5F0FF; font-size:12px; color:var(--text2); line-height:1.7; }
+.wrong-ans { color:var(--teal); font-weight:800; }
+.result-actions { display:flex; flex-direction:column; gap:9px; margin-top:14px; padding-bottom:8px; }
+.r-btn { width:100%; padding:15px; border-radius:var(--radius-sm); font-family:'Jua',sans-serif; font-size:16px; cursor:pointer; transition:transform .1s; }
+.r-btn:active { transform:scale(.98); }
+.r-btn.primary { background:var(--purple); border:none; color:#fff; }
+.r-btn.secondary { background:var(--card); border:1.5px solid #E8E0FF; color:var(--purple); }
 
-/* Scroll */
-::-webkit-scrollbar { width: 0; }
+/* ── HISTORY ── */
+.hist-header { display:flex; align-items:center; gap:12px; padding:52px 20px 16px; background:var(--card); border-bottom:1.5px solid #F5F0FF; }
+.hist-title { flex:1; font-family:'Jua',sans-serif; font-size:18px; color:var(--text); }
+.hist-body { flex:1; overflow-y:auto; padding:16px 20px 32px; }
+.hist-summary {
+  background: var(--card); border-radius:var(--radius);
+  padding:18px; border:1.5px solid #F5F0FF; margin-bottom:16px;
+  display:flex; gap:0;
+}
+.hist-sum-cell { flex:1; text-align:center; }
+.hist-sum-cell + .hist-sum-cell { border-left:1px solid #EDE8FF; }
+.hist-sum-label { font-size:11px; color:var(--text2); margin-bottom:4px; }
+.hist-sum-val { font-family:'Jua',sans-serif; font-size:28px; color:var(--purple); }
+.hist-list-title { font-size:13px; font-weight:700; color:var(--text2); margin-bottom:10px; }
+.hist-item {
+  background:var(--card); border-radius:var(--radius-sm);
+  padding:14px 16px; border:1.5px solid #F5F0FF;
+  margin-bottom:9px; display:flex; align-items:center; gap:12px;
+}
+.hist-item-date { font-size:13px; font-weight:700; color:var(--text); min-width:80px; }
+.hist-item-info { flex:1; font-size:12px; color:var(--text2); line-height:1.6; }
+.hist-item-pts { font-family:'Jua',sans-serif; font-size:18px; }
+.pts-200 { color:#E67E22; }
+.pts-100 { color:var(--blue); }
+.pts-0   { color:var(--text3); }
+.hist-empty { text-align:center; padding:40px 0; color:var(--text3); font-size:14px; }
+
+::-webkit-scrollbar { width:0; }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- HOME -->
+  <!-- ── HOME ── -->
   <div id="home" class="screen active">
     <div class="home-top">
       <p class="home-greeting">안녕하세요! 👋</p>
-      <h1 class="home-title">돈암초등학교<br>3학년 퀴즈</h1>
-      <p class="home-subtitle">교과목을 선택하고 도전해보세요!</p>
+      <h1 class="home-title">3학년 퀴즈</h1>
+      <p class="home-date" id="home-date"></p>
       <div class="streak-badge">🔥 오늘도 공부 도전!</div>
     </div>
 
+    <div class="point-box">
+      <div class="point-cell">
+        <div class="point-label">오늘 포인트</div>
+        <div class="point-val" id="pt-today">0<span class="point-unit">P</span></div>
+      </div>
+      <div class="point-cell">
+        <div class="point-label">누적 포인트</div>
+        <div class="point-val" id="pt-total">0<span class="point-unit">P</span></div>
+      </div>
+    </div>
+
     <div class="total-progress">
-      <p class="tp-label">전체 학습 진행률</p>
+      <p class="tp-label">오늘 진도</p>
       <div class="tp-row">
         <div class="tp-bar-bg"><div class="tp-bar-fill" id="total-prog" style="width:0%"></div></div>
         <span class="tp-pct" id="total-pct">0%</span>
@@ -310,9 +245,11 @@ body { display: flex; justify-content: center; align-items: flex-start; min-heig
 
     <p class="section-label">📚 과목 선택</p>
     <div class="subj-grid" id="subj-grid"></div>
+
+    <button class="hist-btn" id="hist-btn">📋 포인트 히스토리 보기</button>
   </div>
 
-  <!-- QUIZ -->
+  <!-- ── QUIZ ── -->
   <div id="quiz" class="screen">
     <div class="quiz-header">
       <button class="back-btn" id="back-btn">&#8592;</button>
@@ -333,13 +270,20 @@ body { display: flex; justify-content: center; align-items: flex-start; min-heig
     </div>
   </div>
 
-  <!-- RESULT -->
+  <!-- ── RESULT ── -->
   <div id="result" class="screen">
     <div class="result-top">
       <div class="result-stars" id="r-stars">⭐⭐⭐</div>
       <div class="result-score" id="r-score">100점</div>
       <div class="result-sub" id="r-sub">5문제 중 5개 정답</div>
       <div class="result-msg" id="r-msg">완벽해요!</div>
+    </div>
+    <div class="point-banner" id="point-banner">
+      <div class="point-banner-icon" id="pb-icon">🏆</div>
+      <div class="point-banner-text">
+        <div class="point-banner-title" id="pb-title">+200 포인트 획득!</div>
+        <div class="point-banner-sub" id="pb-sub">누적 포인트: 0P</div>
+      </div>
     </div>
     <div class="result-body">
       <div class="wrong-section" id="wrong-section" style="display:none">
@@ -353,224 +297,884 @@ body { display: flex; justify-content: center; align-items: flex-start; min-heig
     </div>
   </div>
 
-</div>
+  <!-- ── HISTORY ── -->
+  <div id="history" class="screen">
+    <div class="hist-header">
+      <button class="back-btn" id="hist-back">&#8592;</button>
+      <span class="hist-title">포인트 히스토리</span>
+    </div>
+    <div class="hist-body">
+      <div class="hist-summary">
+        <div class="hist-sum-cell">
+          <div class="hist-sum-label">총 획득 포인트</div>
+          <div class="hist-sum-val" id="hs-total">0<span style="font-size:14px">P</span></div>
+        </div>
+        <div class="hist-sum-cell">
+          <div class="hist-sum-label">학습 일수</div>
+          <div class="hist-sum-val" id="hs-days">0<span style="font-size:14px">일</span></div>
+        </div>
+      </div>
+      <p class="hist-list-title">날짜별 기록</p>
+      <div id="hist-list"></div>
+    </div>
+  </div>
 
+</div>
 <script>
+/* ═══════════════════════════════════════════════
+   문제 데이터 (과목당 100문제)
+═══════════════════════════════════════════════ */
 const SUBJECTS = {
   math: {
-    name: "수학", icon: "🔢",
-    bg: "#EDE9FF", iconBg: "#CECBF6", barColor: "#6C5CE7",
-    qs: [
-      { q: "153 + 274 = ?", opts: ["417","427","437","447"], ans: 1, ex: "153 + 274 = 427이에요. 일의 자리부터 차례로 더해요!" },
-      { q: "8 × 7 = ?", opts: ["54","56","58","63"], ans: 1, ex: "8 × 7 = 56이에요. 구구단 8단을 외워봐요!" },
-      { q: "24 ÷ 6 = ?", opts: ["3","4","5","6"], ans: 1, ex: "24 ÷ 6 = 4예요. 6 × 4 = 24이니까요!" },
-      { q: "1/2 과 2/4 의 크기를 비교하면?", opts: ["1/2이 더 크다","2/4가 더 크다","같다","비교 불가"], ans: 2, ex: "1/2 = 2/4로 크기가 같아요! 분모와 분자에 같은 수를 곱해도 분수 크기는 변하지 않아요." },
-      { q: "삼각형 세 각의 합은 몇 도일까요?", opts: ["90도","180도","270도","360도"], ans: 1, ex: "삼각형의 세 각의 합은 항상 180도예요!" },
-      { q: "356에서 백의 자리 숫자는?", opts: ["3","5","6","35"], ans: 0, ex: "맨 왼쪽 숫자 3이 백의 자리예요. 356 = 300 + 50 + 6이에요." },
-      { q: "소수 0.5를 분수로 나타내면?", opts: ["1/4","1/3","1/2","2/3"], ans: 2, ex: "0.5 = 5/10 = 1/2이에요!" }
+    name:"수학", icon:"🔢",
+    bg:"#EDE9FF", iconBg:"#CECBF6", barColor:"#6C5CE7",
+    qs:[
+      {q:"153 + 274 = ?",opts:["417","427","437","447"],ans:1,ex:"153+274=427. 일의 자리부터 차례로 더해요!"},
+      {q:"8 × 7 = ?",opts:["54","56","58","63"],ans:1,ex:"8×7=56. 구구단 8단이에요."},
+      {q:"24 ÷ 6 = ?",opts:["3","4","5","6"],ans:1,ex:"24÷6=4. 6×4=24이니까요!"},
+      {q:"삼각형 세 각의 합은 몇 도?",opts:["90도","180도","270도","360도"],ans:1,ex:"삼각형 세 각의 합은 항상 180도예요!"},
+      {q:"356에서 백의 자리 숫자는?",opts:["3","5","6","35"],ans:0,ex:"맨 왼쪽 3이 백의 자리예요. 356=300+50+6"},
+      {q:"소수 0.5를 분수로 나타내면?",opts:["1/4","1/3","1/2","2/3"],ans:2,ex:"0.5=5/10=1/2이에요!"},
+      {q:"9 × 9 = ?",opts:["72","81","90","63"],ans:1,ex:"9×9=81. 구구단 9단 마지막이에요!"},
+      {q:"500 - 237 = ?",opts:["253","263","273","283"],ans:1,ex:"500-237=263. 받아내림에 주의해요!"},
+      {q:"정사각형의 네 각은 모두 몇 도?",opts:["45도","60도","90도","120도"],ans:2,ex:"정사각형의 네 각은 모두 직각(90도)이에요!"},
+      {q:"1km는 몇 m?",opts:["100m","500m","1000m","10000m"],ans:2,ex:"1km=1000m예요. kilo는 1000을 의미해요!"},
+      {q:"3/4 은 전체를 몇 등분한 것 중 몇 개?",opts:["3개 중 4개","4개 중 3개","4개 중 4개","3개 중 3개"],ans:1,ex:"분모 4로 나눈 것 중 3개예요."},
+      {q:"1/2 과 2/4 중 더 큰 것은?",opts:["1/2","2/4","같다","비교 불가"],ans:2,ex:"1/2=2/4로 크기가 같아요!"},
+      {q:"6 × 8 = ?",opts:["42","48","56","64"],ans:1,ex:"6×8=48. 구구단 6단이에요."},
+      {q:"36 ÷ 4 = ?",opts:["7","8","9","10"],ans:2,ex:"36÷4=9. 4×9=36이에요."},
+      {q:"482 + 319 = ?",opts:["791","801","811","791"],ans:1,ex:"482+319=801이에요."},
+      {q:"703 - 456 = ?",opts:["237","247","257","267"],ans:1,ex:"703-456=247이에요."},
+      {q:"7 × 6 = ?",opts:["36","42","48","56"],ans:1,ex:"7×6=42. 구구단 7단이에요."},
+      {q:"45 ÷ 9 = ?",opts:["4","5","6","7"],ans:1,ex:"45÷9=5. 9×5=45이에요."},
+      {q:"정삼각형의 세 변의 길이는?",opts:["모두 다르다","두 개가 같다","모두 같다","알 수 없다"],ans:2,ex:"정삼각형은 세 변의 길이가 모두 같아요!"},
+      {q:"1L는 몇 mL?",opts:["10mL","100mL","1000mL","10000mL"],ans:2,ex:"1L=1000mL예요."},
+      {q:"2/3 + 1/3 = ?",opts:["1/3","2/3","3/3(=1)","4/3"],ans:2,ex:"분모가 같으면 분자끼리 더해요. 2/3+1/3=3/3=1이에요."},
+      {q:"5 × 5 = ?",opts:["20","25","30","35"],ans:1,ex:"5×5=25. 구구단 5단이에요!"},
+      {q:"100 ÷ 10 = ?",opts:["5","10","15","20"],ans:1,ex:"100÷10=10이에요."},
+      {q:"원의 중심에서 원 위의 점까지의 거리는?",opts:["지름","반지름","원주","넓이"],ans:1,ex:"반지름은 원의 중심에서 원 위의 점까지의 거리예요."},
+      {q:"8 + 9 × 2 = ? (계산 순서 적용)",opts:["26","34","17","20"],ans:0,ex:"곱셈 먼저! 9×2=18, 8+18=26이에요."},
+      {q:"세 자리 수 중 가장 큰 수는?",opts:["899","989","998","999"],ans:3,ex:"999가 세 자리 수 중 가장 큰 수예요."},
+      {q:"0.1이 7개이면?",opts:["0.07","0.7","7","70"],ans:1,ex:"0.1이 7개이면 0.7이에요."},
+      {q:"3 × 4 × 2 = ?",opts:["18","24","28","32"],ans:1,ex:"3×4=12, 12×2=24이에요."},
+      {q:"정육면체의 꼭짓점은 몇 개?",opts:["4개","6개","8개","12개"],ans:2,ex:"정육면체(주사위 모양)의 꼭짓점은 8개예요."},
+      {q:"1시간 30분은 몇 분?",opts:["80분","85분","90분","95분"],ans:2,ex:"1시간=60분, 60+30=90분이에요."},
+      {q:"4 × 7 = ?",opts:["24","28","32","36"],ans:1,ex:"4×7=28. 구구단 4단이에요."},
+      {q:"63 ÷ 7 = ?",opts:["7","8","9","10"],ans:2,ex:"63÷7=9. 7×9=63이에요."},
+      {q:"254 + 168 = ?",opts:["412","422","432","402"],ans:1,ex:"254+168=422이에요."},
+      {q:"900 - 364 = ?",opts:["526","536","546","556"],ans:1,ex:"900-364=536이에요."},
+      {q:"이등변삼각형은 몇 개의 변이 같나요?",opts:["0개","1개","2개","3개"],ans:2,ex:"이등변삼각형은 두 변의 길이가 같아요."},
+      {q:"1kg = ?",opts:["100g","500g","1000g","10000g"],ans:2,ex:"1kg=1000g이에요."},
+      {q:"2/5 + 2/5 = ?",opts:["2/5","4/5","4/10","1"],ans:1,ex:"분모가 같으니 분자끼리 더해요. 2+2=4, 즉 4/5예요."},
+      {q:"9 × 3 = ?",opts:["24","27","30","33"],ans:1,ex:"9×3=27. 구구단 9단이에요."},
+      {q:"56 ÷ 8 = ?",opts:["5","6","7","8"],ans:2,ex:"56÷8=7. 8×7=56이에요."},
+      {q:"직각삼각형에서 직각은 몇 개?",opts:["0개","1개","2개","3개"],ans:1,ex:"직각삼각형에는 직각(90도)이 1개 있어요."},
+      {q:"10분의 1을 소수로 나타내면?",opts:["0.01","0.1","1","10"],ans:1,ex:"10분의 1 = 1/10 = 0.1이에요."},
+      {q:"3 × 9 = ?",opts:["24","27","28","30"],ans:1,ex:"3×9=27이에요."},
+      {q:"72 ÷ 8 = ?",opts:["7","8","9","10"],ans:2,ex:"72÷8=9. 8×9=72이에요."},
+      {q:"받아올림이 있는 덧셈: 67 + 48 = ?",opts:["105","115","125","135"],ans:1,ex:"67+48=115예요. 일의 자리 7+8=15, 받아올림 1이 있어요."},
+      {q:"받아내림이 있는 뺄셈: 82 - 47 = ?",opts:["25","35","45","55"],ans:1,ex:"82-47=35예요."},
+      {q:"정사각형의 네 변의 길이는?",opts:["모두 다르다","두 개씩 같다","모두 같다","세 개가 같다"],ans:2,ex:"정사각형은 네 변의 길이가 모두 같아요!"},
+      {q:"2.5 + 1.3 = ?",opts:["3.7","3.8","3.9","4.0"],ans:1,ex:"2.5+1.3=3.8이에요. 소수점끼리 맞춰 더해요."},
+      {q:"1주일은 몇 일?",opts:["5일","6일","7일","8일"],ans:2,ex:"1주일은 7일이에요."},
+      {q:"5 × 8 = ?",opts:["35","40","45","50"],ans:1,ex:"5×8=40. 구구단 5단이에요."},
+      {q:"48 ÷ 6 = ?",opts:["6","7","8","9"],ans:2,ex:"48÷6=8. 6×8=48이에요."},
+      {q:"사각형의 각의 합은?",opts:["180도","270도","360도","720도"],ans:2,ex:"사각형 네 각의 합은 360도예요."},
+      {q:"0.3 + 0.4 = ?",opts:["0.6","0.7","0.8","0.9"],ans:1,ex:"0.3+0.4=0.7이에요."},
+      {q:"1년은 몇 달?",opts:["10달","11달","12달","13달"],ans:2,ex:"1년은 12달이에요."},
+      {q:"6 × 9 = ?",opts:["48","54","56","63"],ans:1,ex:"6×9=54. 구구단 6단이에요."},
+      {q:"81 ÷ 9 = ?",opts:["7","8","9","10"],ans:2,ex:"81÷9=9. 9×9=81이에요."},
+      {q:"천의 자리 숫자가 있는 가장 작은 수는?",opts:["999","1000","1001","100"],ans:1,ex:"1000이 네 자리 수의 시작이에요."},
+      {q:"4.5 - 2.3 = ?",opts:["1.9","2.1","2.2","2.3"],ans:2,ex:"4.5-2.3=2.2예요."},
+      {q:"7 × 8 = ?",opts:["48","54","56","63"],ans:2,ex:"7×8=56. 구구단 7단이에요."},
+      {q:"64 ÷ 8 = ?",opts:["6","7","8","9"],ans:2,ex:"64÷8=8. 8×8=64이에요."},
+      {q:"원의 지름은 반지름의 몇 배?",opts:["1배","2배","3배","4배"],ans:1,ex:"지름=반지름×2예요!"},
+      {q:"1/4 + 2/4 = ?",opts:["1/4","2/4","3/4","4/4"],ans:2,ex:"1/4+2/4=3/4이에요."},
+      {q:"2 × 2 × 2 = ?",opts:["6","8","10","12"],ans:1,ex:"2×2=4, 4×2=8이에요."},
+      {q:"30분은 1시간의 몇 분의 1?",opts:["1/4","1/3","1/2","2/3"],ans:2,ex:"30분은 60분(1시간)의 1/2이에요."},
+      {q:"세 자리 수 247에서 십의 자리 숫자는?",opts:["2","4","7","24"],ans:1,ex:"247에서 가운데 4가 십의 자리예요."},
+      {q:"5 × 6 = ?",opts:["25","30","35","40"],ans:1,ex:"5×6=30. 구구단 5단이에요."},
+      {q:"42 ÷ 7 = ?",opts:["4","5","6","7"],ans:2,ex:"42÷7=6. 7×6=42이에요."},
+      {q:"마름모의 네 변의 길이는?",opts:["모두 다르다","두 개씩 같다","모두 같다","세 개가 같다"],ans:2,ex:"마름모는 네 변의 길이가 모두 같아요."},
+      {q:"1.7 + 0.6 = ?",opts:["2.1","2.2","2.3","2.4"],ans:2,ex:"1.7+0.6=2.3이에요. 소수점 덧셈이에요."},
+      {q:"하루는 몇 시간?",opts:["12시간","18시간","24시간","48시간"],ans:2,ex:"하루는 24시간이에요."},
+      {q:"8 × 3 = ?",opts:["21","24","27","30"],ans:1,ex:"8×3=24. 구구단 8단이에요."},
+      {q:"27 ÷ 3 = ?",opts:["7","8","9","10"],ans:2,ex:"27÷3=9. 3×9=27이에요."},
+      {q:"사다리꼴에는 평행한 변이 몇 쌍?",opts:["0쌍","1쌍","2쌍","3쌍"],ans:1,ex:"사다리꼴은 평행한 변이 1쌍이에요."},
+      {q:"0.9 - 0.4 = ?",opts:["0.4","0.5","0.6","0.7"],ans:1,ex:"0.9-0.4=0.5예요."},
+      {q:"2월은 보통 몇 일까지 있나요?",opts:["27일","28일","29일","30일"],ans:1,ex:"보통 2월은 28일까지예요. 4년에 한 번 29일이에요."},
+      {q:"9 × 4 = ?",opts:["32","36","40","44"],ans:1,ex:"9×4=36. 구구단 9단이에요."},
+      {q:"54 ÷ 6 = ?",opts:["7","8","9","10"],ans:2,ex:"54÷6=9. 6×9=54이에요."},
+      {q:"직사각형에서 마주보는 두 변의 길이는?",opts:["모두 다르다","서로 같다","한 쌍만 같다","알 수 없다"],ans:1,ex:"직사각형에서 마주보는 두 변의 길이는 서로 같아요."},
+      {q:"3.6 - 1.4 = ?",opts:["1.9","2.0","2.2","2.4"],ans:2,ex:"3.6-1.4=2.2예요."},
+      {q:"오전 11시에서 오후 2시까지는 몇 시간?",opts:["2시간","3시간","4시간","5시간"],ans:1,ex:"11시→12시→1시→2시, 3시간이에요."},
+      {q:"7 × 4 = ?",opts:["24","28","32","36"],ans:1,ex:"7×4=28. 구구단 7단이에요."},
+      {q:"35 ÷ 5 = ?",opts:["5","6","7","8"],ans:2,ex:"35÷5=7. 5×7=35이에요."},
+      {q:"평행사변형에서 마주보는 각의 크기는?",opts:["항상 90도","서로 같다","서로 다르다","알 수 없다"],ans:1,ex:"평행사변형에서 마주보는 각의 크기는 서로 같아요."},
+      {q:"1.0 + 1.0 = ?",opts:["1.0","2.0","3.0","0.0"],ans:1,ex:"1.0+1.0=2.0이에요."},
+      {q:"60초는 몇 분?",opts:["0.5분","1분","2분","10분"],ans:1,ex:"60초=1분이에요."},
+      {q:"3 × 7 = ?",opts:["18","21","24","27"],ans:1,ex:"3×7=21. 구구단 3단이에요."},
+      {q:"49 ÷ 7 = ?",opts:["5","6","7","8"],ans:2,ex:"49÷7=7. 7×7=49이에요."},
+      {q:"다음 중 소수는?",opts:["1/2","0.3","3/4","2 1/3"],ans:1,ex:"0.3처럼 소수점이 있는 수를 소수라고 해요."},
+      {q:"5.2 + 3.1 = ?",opts:["8.1","8.2","8.3","8.4"],ans:2,ex:"5.2+3.1=8.3이에요."},
+      {q:"직각은 몇 도?",opts:["45도","60도","90도","180도"],ans:2,ex:"직각은 90도예요."},
+      {q:"2 × 6 = ?",opts:["10","12","14","16"],ans:1,ex:"2×6=12. 구구단 2단이에요."},
+      {q:"18 ÷ 3 = ?",opts:["4","5","6","7"],ans:2,ex:"18÷3=6. 3×6=18이에요."},
+      {q:"분수 5/5 는?",opts:["0","1/5","1","5"],ans:2,ex:"5/5=1이에요. 분자와 분모가 같으면 1이에요."},
+      {q:"7.4 - 3.2 = ?",opts:["3.9","4.1","4.2","4.3"],ans:2,ex:"7.4-3.2=4.2예요."},
+      {q:"정삼각형의 한 각의 크기는?",opts:["30도","45도","60도","90도"],ans:2,ex:"정삼각형 세 각이 모두 같고 합이 180도이니 60도씩이에요."},
+      {q:"4 × 9 = ?",opts:["32","36","40","44"],ans:1,ex:"4×9=36. 구구단 4단이에요."},
+      {q:"40 ÷ 5 = ?",opts:["6","7","8","9"],ans:2,ex:"40÷5=8. 5×8=40이에요."},
+      {q:"평행선 사이의 거리는?",opts:["점점 가까워진다","항상 같다","점점 멀어진다","알 수 없다"],ans:1,ex:"평행선은 서로 만나지 않고 사이 거리가 항상 같아요."},
+      {q:"9.0 - 4.5 = ?",opts:["4.0","4.5","5.0","5.5"],ans:1,ex:"9.0-4.5=4.5예요."},
+      {q:"1달은 보통 몇 일?",opts:["28일","29일","30일","30~31일"],ans:3,ex:"1달은 28~31일로 달마다 달라요."}
     ]
   },
   korean: {
-    name: "국어", icon: "📖",
-    bg: "#D4F5ED", iconBg: "#9FE1CB", barColor: "#00B894",
-    qs: [
-      { q: "낱말의 뜻을 찾는 올바른 방법이 아닌 것은?", opts: ["국어사전 이용","앞뒤 문장으로 추측","무조건 외운다","선생님께 여쭤본다"], ans: 2, ex: "낱말의 뜻은 사전, 문맥, 질문 등으로 찾아요. 무조건 외우는 건 좋지 않아요." },
-      { q: "일기에서 꼭 필요하지 않은 것은?", opts: ["날짜","날씨","그림","있었던 일"], ans: 2, ex: "그림은 넣을 수 있지만 필수는 아니에요. 날짜·날씨·있었던 일이 기본 요소예요." },
-      { q: "'주장하는 글'에 해당하는 것은?", opts: ["동화","일기","독후감","의견 발표문"], ans: 3, ex: "의견 발표문은 자신의 주장을 내세우는 글이에요!" },
-      { q: "다음 중 받침이 있는 글자는?", opts: ["나","가","산","오"], ans: 2, ex: "'산'에는 'ㄴ' 받침이 있어요. 받침은 글자 아래에 오는 자음이에요." },
-      { q: "독서 감상문에서 가장 중요한 것은?", opts: ["줄거리만 쓰기","책 정보 쓰기","자신의 생각과 느낌 쓰기","그림 그리기"], ans: 2, ex: "독서 감상문은 자신의 생각과 느낌을 담는 것이 가장 중요해요!" }
+    name:"국어", icon:"📖",
+    bg:"#D4F5ED", iconBg:"#9FE1CB", barColor:"#00B894",
+    qs:[
+      {q:"낱말의 뜻을 찾는 올바른 방법이 아닌 것은?",opts:["국어사전 이용","앞뒤 문장으로 추측","무조건 외운다","선생님께 여쭤본다"],ans:2,ex:"낱말의 뜻은 사전, 문맥, 질문 등으로 찾아요."},
+      {q:"일기에서 꼭 필요하지 않은 것은?",opts:["날짜","날씨","그림","있었던 일"],ans:2,ex:"그림은 선택이에요. 날짜·날씨·있었던 일이 기본이에요."},
+      {q:"'주장하는 글'에 해당하는 것은?",opts:["동화","일기","독후감","의견 발표문"],ans:3,ex:"의견 발표문은 자신의 주장을 담는 글이에요!"},
+      {q:"받침이 있는 글자는?",opts:["나","가","산","오"],ans:2,ex:"'산'에는 'ㄴ' 받침이 있어요."},
+      {q:"독서 감상문에서 가장 중요한 것은?",opts:["줄거리만 쓰기","책 정보 쓰기","자신의 생각과 느낌","그림 그리기"],ans:2,ex:"자신의 생각과 느낌이 가장 중요해요!"},
+      {q:"꾸며주는 말(형용사)은?",opts:["달린다","예쁘다","학교","빠르게"],ans:1,ex:"'예쁘다'는 상태를 나타내는 형용사예요."},
+      {q:"편지글의 끝부분에 쓰는 것은?",opts:["받는 사람","쓴 날짜와 이름","안부 인사","하고 싶은 말"],ans:1,ex:"편지 끝에는 쓴 날짜와 보내는 사람 이름을 써요."},
+      {q:"모르는 낱말을 만나면 가장 먼저?",opts:["그냥 넘어간다","앞뒤 문장으로 짐작","책을 덮는다","처음부터 다시 읽는다"],ans:1,ex:"앞뒤 문장으로 뜻을 짐작해보는 게 좋아요."},
+      {q:"시에서 같은 소리가 반복될 때 느껴지는 것은?",opts:["무서움","리듬감","지루함","슬픔"],ans:1,ex:"같은 소리가 반복되면 리듬감이 생겨요."},
+      {q:"높임말로 바르게 쓴 것은?",opts:["할머니가 밥을 먹어","선생님이 오셨어요","아빠가 자고 있어","친구가 드세요"],ans:1,ex:"웃어른께는 '오셨어요'처럼 높임말을 써요."},
+      {q:"설명하는 글을 읽을 때 중요한 것은?",opts:["글쓴이 이름","중심 내용 파악","그림 개수","글자 수"],ans:1,ex:"설명하는 글은 중심 내용이 무엇인지 파악해요."},
+      {q:"받침 'ㄱ'이 있는 낱말은?",opts:["바나나","사과","국어","노래"],ans:2,ex:"'국어'에서 '국'의 받침이 'ㄱ'이에요."},
+      {q:"이야기의 구성 요소가 아닌 것은?",opts:["인물","사건","배경","글자 수"],ans:3,ex:"이야기의 구성 요소는 인물·사건·배경이에요."},
+      {q:"광고문의 특징은?",opts:["길고 자세하다","간결하고 인상적이다","어렵다","슬프다"],ans:1,ex:"광고문은 짧고 인상적으로 제품을 알려요."},
+      {q:"글을 읽고 내용을 파악하는 방법이 아닌 것은?",opts:["중심 문장 찾기","메모하기","무조건 빨리 읽기","질문하며 읽기"],ans:2,ex:"무조건 빨리 읽으면 내용을 놓칠 수 있어요."},
+      {q:"'빠르다'와 비슷한 말은?",opts:["느리다","늦다","신속하다","멀다"],ans:2,ex:"'신속하다'가 '빠르다'와 비슷한 말이에요."},
+      {q:"문장 부호 '?'의 이름은?",opts:["마침표","쉼표","물음표","느낌표"],ans:2,ex:"'?'는 물음표예요. 질문할 때 사용해요."},
+      {q:"다음 중 받침이 없는 글자는?",opts:["밥","국","하","집"],ans:2,ex:"'하'에는 받침이 없어요."},
+      {q:"'책을 읽다'에서 '읽다'의 품사는?",opts:["명사","형용사","동사","부사"],ans:2,ex:"'읽다'는 동작을 나타내는 동사예요."},
+      {q:"시의 특징이 아닌 것은?",opts:["리듬이 있다","비유를 사용한다","정해진 길이가 있다","감정을 담는다"],ans:2,ex:"시는 정해진 길이가 없어요. 짧을 수도 길 수도 있어요."},
+      {q:"'ㅏ'가 들어간 낱말은?",opts:["이","우유","사과","으스"],ans:2,ex:"'사과'에는 모음 'ㅏ'가 들어있어요."},
+      {q:"일기를 쓰는 목적은?",opts:["남에게 보여주기","하루 생활 기록","숙제하기","점수 받기"],ans:1,ex:"일기는 하루 생활을 기록하기 위해 써요."},
+      {q:"'뛰다'의 반대말은?",opts:["달리다","걷다","날다","멈추다"],ans:1,ex:"'뛰다'의 반대말은 '걷다'예요."},
+      {q:"문장을 끝맺을 때 쓰는 부호는?",opts:["쉼표(,)","마침표(.)","물음표(?)","느낌표(!)"],ans:1,ex:"문장의 끝에는 마침표(.)를 써요."},
+      {q:"'높다'의 반대말은?",opts:["크다","넓다","낮다","길다"],ans:2,ex:"'높다'의 반대말은 '낮다'예요."},
+      {q:"이야기에서 '갈등'이란?",opts:["즐거운 사건","인물 사이의 대립이나 문제","배경 설명","이야기의 끝"],ans:1,ex:"갈등은 인물 사이의 대립이나 문제 상황이에요."},
+      {q:"'예쁜 꽃'에서 '예쁜'은 어떤 역할?",opts:["꽃의 행동","꽃의 상태를 꾸며줌","꽃의 이름","꽃의 수량"],ans:1,ex:"'예쁜'은 꽃의 상태를 꾸며주는 꾸밈말이에요."},
+      {q:"글에서 중심 문장이란?",opts:["첫 번째 문장","가장 긴 문장","글의 핵심 내용을 담은 문장","마지막 문장"],ans:2,ex:"중심 문장은 글의 핵심 내용을 담고 있어요."},
+      {q:"다음 중 이어주는 말(접속어)은?",opts:["빨리","그리고","예쁘다","달리기"],ans:1,ex:"'그리고'는 문장과 문장을 이어주는 접속어예요."},
+      {q:"'춥다'의 반대말은?",opts:["시원하다","덥다","따뜻하다","뜨겁다"],ans:1,ex:"'춥다'의 반대말은 '덥다'예요."},
+      {q:"독서 감상문과 줄거리의 차이점은?",opts:["줄거리에 느낌이 있다","독서 감상문에 느낌과 생각이 있다","같다","둘 다 느낌이 없다"],ans:1,ex:"독서 감상문은 줄거리에 자신의 느낌과 생각을 더한 거예요."},
+      {q:"'ㄴ' 받침이 있는 낱말은?",opts:["학교","바다","산","하늘"],ans:2,ex:"'산'에는 'ㄴ' 받침이 있어요."},
+      {q:"주어란 무엇인가요?",opts:["동작을 설명하는 말","문장에서 누가/무엇이 해당하는 말","꾸며주는 말","이어주는 말"],ans:1,ex:"주어는 문장에서 '누가' 또는 '무엇이'에 해당해요."},
+      {q:"'빛나다'에서 기본형은?",opts:["빛","빛나","빛나다","빛났다"],ans:2,ex:"동사의 기본형은 '~다'로 끝나요. '빛나다'예요."},
+      {q:"소리를 흉내 내는 말은?",opts:["의성어","의태어","형용사","동사"],ans:0,ex:"소리를 흉내 내는 말은 의성어예요. 예: 멍멍, 야옹"},
+      {q:"모양을 흉내 내는 말은?",opts:["의성어","의태어","형용사","동사"],ans:1,ex:"모양을 흉내 내는 말은 의태어예요. 예: 뒤뚱뒤뚱"},
+      {q:"'나는 학교에 간다'에서 주어는?",opts:["학교","간다","나는","에"],ans:2,ex:"'나는'이 이 문장의 주어예요."},
+      {q:"글을 요약할 때 가장 중요한 것은?",opts:["글자 수 줄이기","핵심 내용만 남기기","그림 추가하기","길게 쓰기"],ans:1,ex:"요약은 핵심 내용만 간추리는 거예요."},
+      {q:"'달리다'의 현재형은?",opts:["달렸다","달린다","달릴 것이다","달리고"],ans:1,ex:"현재 동작을 나타낼 때는 '달린다'로 써요."},
+      {q:"편지에서 '받는 사람'은 어디에 쓰나요?",opts:["편지 끝","편지 중간","편지 처음","아무 곳이나"],ans:2,ex:"받는 사람은 편지의 처음(맨 위)에 써요."},
+      {q:"'나무'와 같은 품사는?",opts:["달리다","예쁘다","하늘","빠르게"],ans:2,ex:"'나무'와 '하늘'은 모두 사물의 이름을 나타내는 명사예요."},
+      {q:"설득하는 글을 쓸 때 필요한 것은?",opts:["재미있는 이야기","근거와 주장","예쁜 그림","긴 내용"],ans:1,ex:"설득하는 글에는 명확한 주장과 근거가 필요해요."},
+      {q:"'가다'를 높임말로 바꾸면?",opts:["가요","가세요","갔어요","가겠어요"],ans:1,ex:"웃어른에게는 '가세요'라고 높임말을 써요."},
+      {q:"국어사전에서 낱말은 어떤 순서로 배열?",opts:["가나다 순","크기 순","긴 것부터","아무 순서 없이"],ans:0,ex:"국어사전은 가나다 순(자모 순)으로 배열해요."},
+      {q:"'꽃이 핀다'에서 서술어는?",opts:["꽃이","이","핀다","꽃"],ans:2,ex:"서술어는 동작이나 상태를 설명해요. '핀다'예요."},
+      {q:"의견을 말할 때 중요한 것은?",opts:["크게 말하기","근거를 들어 말하기","빠르게 말하기","오래 말하기"],ans:1,ex:"의견을 말할 때는 까닭(근거)을 함께 말해야 해요."},
+      {q:"'먹다'의 반대말은?",opts:["마시다","배고프다","뱉다","주다"],ans:2,ex:"'먹다'의 반대말은 '뱉다'예요."},
+      {q:"문단이란 무엇인가요?",opts:["한 문장","하나의 중심 생각을 담은 여러 문장의 모음","한 글자","책 한 권"],ans:1,ex:"문단은 하나의 중심 생각을 담은 여러 문장의 묶음이에요."},
+      {q:"이야기의 '배경'이란?",opts:["인물의 이름","사건이 일어나는 때와 장소","이야기의 결말","주인공의 성격"],ans:1,ex:"배경은 이야기가 일어나는 시간과 장소예요."},
+      {q:"'아름답다'와 비슷한 말은?",opts:["못생기다","곱다","작다","빠르다"],ans:1,ex:"'곱다'는 '아름답다'와 비슷한 말이에요."},
+      {q:"다음 중 문장이 완성된 것은?",opts:["예쁜","하늘이 맑다","파란","달리는"],ans:1,ex:"'하늘이 맑다'는 주어+서술어가 있는 완성된 문장이에요."},
+      {q:"'조용히'는 어떤 역할?",opts:["동사","명사","부사","형용사"],ans:2,ex:"'조용히'는 동작이나 상태를 꾸며주는 부사예요."},
+      {q:"이야기를 읽고 인물의 마음을 파악하는 방법은?",opts:["글자 수 세기","인물의 말과 행동 살피기","빠르게 읽기","끝만 읽기"],ans:1,ex:"인물의 말과 행동을 통해 마음을 파악해요."},
+      {q:"'크다'의 반대말은?",opts:["높다","넓다","작다","길다"],ans:2,ex:"'크다'의 반대말은 '작다'예요."},
+      {q:"국어사전에서 '사과'를 찾을 때 첫 글자 'ㅅ'은?",opts:["첫 번째 자음","모음","받침","이중모음"],ans:0,ex:"'ㅅ'은 자음이에요. 국어사전은 자음 순서로 찾아요."},
+      {q:"'새가 날다'에서 서술어는?",opts:["새가","새","날다","가"],ans:2,ex:"'날다'가 새의 동작을 설명하는 서술어예요."},
+      {q:"글의 제목을 정할 때 고려하는 것은?",opts:["가장 긴 제목","글의 내용을 잘 나타내는 제목","예쁜 글씨","짧은 제목"],ans:1,ex:"제목은 글의 내용을 잘 나타낼 수 있어야 해요."},
+      {q:"'바람이 불다'에서 주어는?",opts:["불다","이","바람이","바람"],ans:2,ex:"'바람이'가 이 문장의 주어예요."},
+      {q:"설명하는 글과 주장하는 글의 차이는?",opts:["없다","설명하는 글은 사실, 주장하는 글은 의견","주장하는 글이 더 길다","설명하는 글이 더 재밌다"],ans:1,ex:"설명하는 글은 사실을, 주장하는 글은 의견과 근거를 담아요."},
+      {q:"'모자를 쓰다'에서 '쓰다'의 품사는?",opts:["명사","형용사","동사","부사"],ans:2,ex:"'쓰다'는 동작을 나타내는 동사예요."},
+      {q:"동시(동화 시)의 특징이 아닌 것은?",opts:["어린이의 눈높이","감정을 담는다","길고 복잡하다","리듬감이 있다"],ans:2,ex:"동시는 어린이에게 맞게 짧고 간결해요."},
+      {q:"'빠르게 달리다'에서 '빠르게'는?",opts:["주어","서술어","꾸밈말(부사)","목적어"],ans:2,ex:"'빠르게'는 달리는 동작을 꾸며주는 부사예요."},
+      {q:"글 읽기에서 '내용 확인'이란?",opts:["글자 예쁘게 읽기","글에 있는 사실 파악","빠르게 읽기","소리 내어 읽기"],ans:1,ex:"내용 확인은 글에 나온 사실을 파악하는 거예요."},
+      {q:"'ㄹ' 받침이 있는 낱말은?",opts:["사과","학교","바람","달"],ans:3,ex:"'달'에는 'ㄹ' 받침이 있어요."},
+      {q:"문장의 기본 구성 요소는?",opts:["주어만","서술어만","주어+서술어","꾸밈말만"],ans:2,ex:"문장은 기본적으로 주어+서술어로 이루어져요."},
+      {q:"'물이 맑다'에서 '맑다'의 품사는?",opts:["명사","동사","형용사","부사"],ans:2,ex:"'맑다'는 상태를 나타내는 형용사예요."},
+      {q:"독서의 좋은 점이 아닌 것은?",opts:["지식이 넓어진다","상상력이 커진다","눈이 나빠진다","어휘가 풍부해진다"],ans:2,ex:"독서 자체가 눈을 나쁘게 하지는 않아요. (단, 너무 가까이 보거나 어두운 곳에서 읽으면 안 돼요)"},
+      {q:"'어제 비가 왔다'에서 시제는?",opts:["현재","과거","미래","알 수 없다"],ans:1,ex:"'왔다'는 과거에 일어난 일을 나타내요."},
+      {q:"소개하는 글을 쓸 때 넣어야 할 것은?",opts:["소개 대상의 특징","긴 이야기","그림 설명","숫자"],ans:0,ex:"소개하는 글에는 소개 대상의 특징이 꼭 들어가야 해요."},
+      {q:"'하늘이 파랗다'에서 '파랗다'는?",opts:["명사","동사","형용사","부사"],ans:2,ex:"'파랗다'는 색깔·상태를 나타내는 형용사예요."},
+      {q:"글에서 뒷받침 문장이란?",opts:["글의 첫 문장","중심 문장을 설명하는 문장","가장 긴 문장","마지막 문장"],ans:1,ex:"뒷받침 문장은 중심 문장의 내용을 설명하고 도와주는 문장이에요."},
+      {q:"'웃기다'의 반대말은?",opts:["슬프다","울리다","즐겁다","재밌다"],ans:1,ex:"'웃기다'의 반대말은 '울리다'예요."},
+      {q:"다음 중 감탄문은?",opts:["나는 학교에 간다","꽃이 정말 예쁘구나!","집에 가자","밥을 먹어라"],ans:1,ex:"'꽃이 정말 예쁘구나!'처럼 감탄을 나타내는 문장이 감탄문이에요."},
+      {q:"'ㅎ' 받침이 있는 낱말은?",opts:["사과","낳다","바람","사람"],ans:1,ex:"'낳다'에는 'ㅎ' 받침이 있어요."},
+      {q:"이야기를 요약할 때 포함해야 하는 것은?",opts:["등장인물 이름만","핵심 사건과 결말","모든 세부 내용","그림"],ans:1,ex:"이야기 요약에는 핵심 사건과 결말이 포함돼야 해요."},
+      {q:"'겨울이 왔다'에서 '겨울이'는?",opts:["서술어","주어","목적어","부사어"],ans:1,ex:"'겨울이'는 이 문장의 주어예요."},
+      {q:"띄어쓰기가 바른 것은?",opts:["나는학교에간다","나는 학교에 간다","나는학교에 간다","나는 학교에간다"],ans:1,ex:"각 낱말은 띄어 써야 해요. '나는 학교에 간다'가 바른 표현이에요."},
+      {q:"'아름다운 봄날'에서 '봄날'은?",opts:["형용사","동사","명사","부사"],ans:2,ex:"'봄날'은 어떤 날의 이름(사물)을 나타내는 명사예요."},
+      {q:"이야기에서 '주인공'이란?",opts:["작가","이야기의 중심 인물","독자","책 이름"],ans:1,ex:"주인공은 이야기의 중심이 되는 인물이에요."},
+      {q:"'슬프다'와 비슷한 말은?",opts:["기쁘다","행복하다","우울하다","즐겁다"],ans:2,ex:"'우울하다'는 '슬프다'와 비슷한 말이에요."},
+      {q:"'조용한 도서관'에서 '조용한'은?",opts:["주어","서술어","꾸밈말","목적어"],ans:2,ex:"'조용한'은 도서관의 상태를 꾸며주는 꾸밈말이에요."},
+      {q:"글을 쓸 때 계획 단계에서 하는 것은?",opts:["글쓰기","고쳐쓰기","무엇을 쓸지 정하기","그림 그리기"],ans:2,ex:"글을 쓰기 전 계획 단계에서는 주제와 내용을 정해요."},
+      {q:"'달리다'와 비슷한 말은?",opts:["걷다","뛰다","쉬다","자다"],ans:1,ex:"'뛰다'는 '달리다'와 비슷한 말이에요."},
+      {q:"'ㅂ' 받침이 있는 낱말은?",opts:["사과","하늘","앞","뒤"],ans:2,ex:"'앞'에는 'ㅂ' 받침이 있어요."},
+      {q:"문장 '강아지가 짖는다'에서 서술어는?",opts:["강아지가","강아지","가","짖는다"],ans:3,ex:"'짖는다'가 강아지의 동작을 설명하는 서술어예요."},
+      {q:"다음 중 의문문은?",opts:["밥을 먹어라","오늘 날씨가 좋다","너 이름이 뭐야?","어서 일어나"],ans:2,ex:"물음표(?)로 끝나는 '너 이름이 뭐야?'가 의문문이에요."},
+      {q:"'예쁜 꽃'에서 '꽃'은?",opts:["형용사","동사","명사","부사"],ans:2,ex:"'꽃'은 사물의 이름을 나타내는 명사예요."},
+      {q:"글의 종류 중 '설명문'의 목적은?",opts:["감동 주기","주장하기","정보 전달하기","재미 주기"],ans:2,ex:"설명문은 독자에게 정보나 지식을 전달하는 글이에요."},
+      {q:"'열심히 공부하다'에서 '열심히'의 역할은?",opts:["주어","서술어","꾸밈말(부사)","목적어"],ans:2,ex:"'열심히'는 공부하는 방법을 꾸며주는 부사예요."},
+      {q:"받아쓰기를 잘 하려면?",opts:["빠르게만 쓰기","맞춤법 익히기","예쁘게만 쓰기","길게 쓰기"],ans:1,ex:"받아쓰기를 잘 하려면 맞춤법을 익혀야 해요."},
+      {q:"'기쁘다'의 반대말은?",opts:["즐겁다","슬프다","행복하다","신나다"],ans:1,ex:"'기쁘다'의 반대말은 '슬프다'예요."},
+      {q:"이야기에서 '복선'이란?",opts:["결말","나중에 일어날 일을 암시하는 표현","배경 설명","주인공 소개"],ans:1,ex:"복선은 나중에 일어날 사건을 미리 암시하는 표현이에요."}
     ]
   },
   science: {
-    name: "과학", icon: "🔬",
-    bg: "#FFF5D6", iconBg: "#FAC775", barColor: "#FDCB6E",
-    qs: [
-      { q: "나비의 한살이 순서로 알맞은 것은?", opts: ["알→성충→번데기→애벌레","알→애벌레→번데기→성충","알→번데기→애벌레→성충","성충→알→애벌레"], ans: 1, ex: "나비의 한살이: 알 → 애벌레 → 번데기 → 성충(나비)이에요!" },
-      { q: "식물이 자라는 데 필요하지 않은 것은?", opts: ["물","햇빛","흙","소금"], ans: 3, ex: "식물은 물, 햇빛, 흙, 공기가 필요해요. 소금은 필요 없어요." },
-      { q: "물이 얼면 부피가 어떻게 될까요?", opts: ["줄어든다","늘어난다","변하지 않는다","색이 변한다"], ans: 1, ex: "물이 얼음이 되면 부피가 약간 늘어나요. 겨울에 수도관이 터지는 이유예요!" },
-      { q: "자석에 붙는 물질은?", opts: ["나무","플라스틱","철","종이"], ans: 2, ex: "자석에는 철, 니켈 등 일부 금속만 붙어요. 나무·종이·플라스틱은 붙지 않아요." },
-      { q: "지구가 태양을 한 바퀴 도는 시간은?", opts: ["하루","한 달","1년","10년"], ans: 2, ex: "지구 공전 주기는 약 365일(1년)이에요. 이를 '공전'이라고 해요!" }
+    name:"과학", icon:"🔬",
+    bg:"#FFF5D6", iconBg:"#FAC775", barColor:"#FDCB6E",
+    qs:[
+      {q:"나비의 한살이 순서는?",opts:["알→성충→번데기→애벌레","알→애벌레→번데기→성충","알→번데기→애벌레→성충","성충→알→애벌레"],ans:1,ex:"나비: 알→애벌레→번데기→성충(나비)!"},
+      {q:"식물 성장에 필요하지 않은 것은?",opts:["물","햇빛","흙","소금"],ans:3,ex:"식물은 물·햇빛·흙·공기가 필요해요. 소금은 아니에요."},
+      {q:"물이 얼면 부피는?",opts:["줄어든다","늘어난다","변하지 않는다","색이 변한다"],ans:1,ex:"물이 얼면 부피가 약간 늘어나요!"},
+      {q:"자석에 붙는 물질은?",opts:["나무","플라스틱","철","종이"],ans:2,ex:"자석에는 철·니켈 등 일부 금속만 붙어요."},
+      {q:"지구가 태양을 한 바퀴 도는 시간은?",opts:["하루","한 달","1년","10년"],ans:2,ex:"지구 공전 주기는 약 365일(1년)이에요!"},
+      {q:"지렁이는 어디에 사나요?",opts:["나무 위","땅 속","물 속","하늘"],ans:1,ex:"지렁이는 땅 속에 살며 흙을 비옥하게 해요."},
+      {q:"물이 증발하면?",opts:["얼음이 된다","수증기가 된다","무거워진다","색이 변한다"],ans:1,ex:"증발하면 눈에 보이지 않는 수증기(기체)가 돼요."},
+      {q:"우리 몸에서 혈액을 온몸에 보내는 기관은?",opts:["폐","위","심장","뇌"],ans:2,ex:"심장은 펌프처럼 혈액을 온몸에 보내요."},
+      {q:"식물의 광합성에 필요하지 않은 것은?",opts:["햇빛","이산화탄소","물","소리"],ans:3,ex:"광합성에는 햇빛·이산화탄소·물이 필요해요."},
+      {q:"개구리의 한살이 순서는?",opts:["알→올챙이→개구리","알→개구리→올챙이","올챙이→알→개구리","개구리→알→올챙이"],ans:0,ex:"개구리: 알→올챙이→개구리예요!"},
+      {q:"뼈대가 없는 동물은?",opts:["강아지","고양이","달팽이","비둘기"],ans:2,ex:"달팽이는 뼈대가 없는 무척추동물이에요."},
+      {q:"식물의 뿌리 역할이 아닌 것은?",opts:["물 흡수","양분 저장","광합성","식물 고정"],ans:2,ex:"광합성은 잎이 하는 역할이에요. 뿌리는 물 흡수·고정·저장을 해요."},
+      {q:"겨울잠을 자는 동물이 아닌 것은?",opts:["곰","개구리","뱀","참새"],ans:3,ex:"참새는 겨울잠을 자지 않아요!"},
+      {q:"빛의 삼원색이 아닌 것은?",opts:["빨강","초록","파랑","노랑"],ans:3,ex:"빛의 삼원색은 빨강·초록·파랑이에요. 노랑은 아니에요."},
+      {q:"소리가 전달되는 데 필요한 것은?",opts:["빛","물질(매질)","바람","열"],ans:1,ex:"소리는 공기·물 등 물질(매질)을 통해 전달돼요."},
+      {q:"뼈와 근육의 관계로 알맞은 것은?",opts:["뼈만으로 움직인다","근육만으로 움직인다","뼈와 근육이 함께 작용해 움직인다","관계없다"],ans:2,ex:"근육이 수축·이완하면서 뼈를 움직여요."},
+      {q:"식물의 줄기 역할이 아닌 것은?",opts:["물과 양분 이동","식물 지지","씨앗 만들기","저장"],ans:2,ex:"씨앗은 꽃(열매)에서 만들어져요. 줄기는 이동·지지·저장을 해요."},
+      {q:"태양 에너지에서 비롯되지 않는 것은?",opts:["식물 성장","물의 순환","지구 내부 화산","바람"],ans:2,ex:"화산은 지구 내부 열에서 비롯되어요."},
+      {q:"물의 순환 과정에서 증발이 일어나는 곳은?",opts:["땅 속","강·바다 표면","하늘","빙하"],ans:1,ex:"강이나 바다 표면에서 물이 증발해 수증기가 돼요."},
+      {q:"자석의 같은 극끼리는?",opts:["끌어당긴다","밀어낸다","붙는다","관계없다"],ans:1,ex:"같은 극(N-N, S-S)끼리는 밀어내요!"},
+      {q:"자석의 다른 극끼리는?",opts:["끌어당긴다","밀어낸다","반응 없다","폭발한다"],ans:0,ex:"다른 극(N-S)끼리는 끌어당겨요!"},
+      {q:"식물의 잎 역할은?",opts:["물 흡수","광합성과 증산","씨앗 보호","뿌리 대신"],ans:1,ex:"잎은 햇빛으로 양분을 만드는 광합성을 해요."},
+      {q:"동물의 호흡 기관은?",opts:["심장","폐","위","신장"],ans:1,ex:"폐는 산소를 흡입하고 이산화탄소를 내보내는 호흡 기관이에요."},
+      {q:"물이 기체 상태로 변하는 현상은?",opts:["응결","증발","응고","융해"],ans:1,ex:"물(액체)이 수증기(기체)가 되는 것을 증발이라 해요."},
+      {q:"다음 중 척추동물은?",opts:["지렁이","달팽이","붕어","문어"],ans:2,ex:"붕어는 척추(뼈)가 있는 척추동물이에요."},
+      {q:"식물의 꽃 역할은?",opts:["물 흡수","광합성","번식(씨앗 만들기)","지지"],ans:2,ex:"꽃은 수분(수술→암술)을 통해 씨앗을 만들어요."},
+      {q:"소리의 크기(세기)를 나타내는 단위는?",opts:["m","kg","dB(데시벨)","°C"],ans:2,ex:"소리의 크기는 dB(데시벨)로 나타내요."},
+      {q:"그림자가 생기기 위한 조건이 아닌 것은?",opts:["빛","물체","스크린(막)","바람"],ans:3,ex:"그림자에는 빛·물체·스크린이 필요해요. 바람은 필요 없어요."},
+      {q:"빛은 어떻게 나아가나요?",opts:["구불구불","직진","후진","도약"],ans:1,ex:"빛은 직진(곧게 나아감)해요!"},
+      {q:"얼음이 녹으면?",opts:["수증기","물","소금물","공기"],ans:1,ex:"얼음(고체)이 녹으면 물(액체)이 돼요."},
+      {q:"식물의 씨앗이 퍼지는 방법이 아닌 것은?",opts:["바람","동물","물","소리"],ans:3,ex:"씨앗은 바람·동물·물 등을 통해 퍼져요. 소리는 아니에요."},
+      {q:"우리 몸에서 소화가 시작되는 곳은?",opts:["위","소장","입","식도"],ans:2,ex:"소화는 음식을 씹는 입에서부터 시작돼요."},
+      {q:"지구에서 자전 시간은?",opts:["1시간","12시간","24시간","365일"],ans:2,ex:"지구는 약 24시간(하루)에 한 번 자전해요."},
+      {q:"계절이 바뀌는 이유는?",opts:["달의 위치","지구 자전","지구 공전과 지축 기울기","태양 크기 변화"],ans:2,ex:"지구가 태양 주위를 돌면서 지축이 기울어 계절이 바뀌어요."},
+      {q:"동물의 소화 기관이 아닌 것은?",opts:["위","소장","대장","심장"],ans:3,ex:"심장은 순환 기관이에요. 위·소장·대장이 소화 기관이에요."},
+      {q:"자석 나침반의 N극이 가리키는 방향은?",opts:["남쪽","북쪽","동쪽","서쪽"],ans:1,ex:"나침반의 N극은 항상 북쪽을 가리켜요."},
+      {q:"물체가 무거울수록 그림자 크기는?",opts:["커진다","작아진다","관계없다","사라진다"],ans:2,ex:"그림자 크기는 무게가 아니라 물체의 크기·빛의 방향에 따라 달라요."},
+      {q:"식물이 양분을 만드는 데 필요한 기체는?",opts:["산소","질소","이산화탄소","수소"],ans:2,ex:"광합성에 이산화탄소(CO₂)와 물·햇빛이 필요해요."},
+      {q:"물이 끓을 때의 온도는?",opts:["50°C","80°C","100°C","200°C"],ans:2,ex:"물은 100°C에서 끓어요."},
+      {q:"빛이 물에서 공기로 나올 때?",opts:["직진","굴절","반사","흡수"],ans:1,ex:"빛이 서로 다른 물질 경계에서 방향이 바뀌는 걸 굴절이라 해요."},
+      {q:"우리 몸에서 뼈의 역할이 아닌 것은?",opts:["몸 지지","내장 보호","혈액 생산","소화"],ans:3,ex:"소화는 소화 기관이 해요. 뼈는 지지·보호·혈액 생산을 해요."},
+      {q:"씨가 싹이 트려면 필요한 것은?",opts:["소금","물·온기·공기","햇빛만","빛만"],ans:1,ex:"씨앗이 싹트려면 물·적당한 온기·공기가 필요해요."},
+      {q:"분류 기준으로 적절하지 않은 것은?",opts:["다리 개수","날개 유무","동물의 색깔 선호도","척추 유무"],ans:2,ex:"동물이 어떤 색깔을 좋아하는지는 과학적 분류 기준이 아니에요."},
+      {q:"열이 이동하는 방식이 아닌 것은?",opts:["전도","대류","복사","중력"],ans:3,ex:"열의 이동 방식은 전도·대류·복사예요."},
+      {q:"물체를 빛에 비추었을 때 그림자 방향은?",opts:["빛과 같은 방향","빛의 반대 방향","위","아래"],ans:1,ex:"그림자는 빛의 반대 방향에 생겨요."},
+      {q:"사람의 체온으로 정상적인 것은?",opts:["30°C","36~37°C","40°C","45°C"],ans:1,ex:"정상 체온은 약 36~37°C예요."},
+      {q:"식물이 물을 잎에서 내보내는 현상은?",opts:["증발","증산","응결","광합성"],ans:1,ex:"잎의 기공을 통해 수증기를 내보내는 걸 증산이라 해요."},
+      {q:"다음 중 곤충이 아닌 것은?",opts:["나비","개미","거미","잠자리"],ans:2,ex:"거미는 다리가 8개인 거미류예요. 곤충은 다리가 6개예요."},
+      {q:"자석이 아무 방향으로도 잘 붙는 부분은?",opts:["N극","S극","중간 부분","극부분"],ans:2,ex:"자석의 중간 부분은 자력이 약해서 잘 붙지 않아요. 극 부분이 가장 강해요."},
+      {q:"여름에 시원하고 겨울에 따뜻한 집의 원리는?",opts:["자석 원리","단열","증발","전도"],ans:1,ex:"단열재가 열의 이동을 막아 여름엔 시원하고 겨울엔 따뜻해요."},
+      {q:"달의 모양이 매일 변하는 이유는?",opts:["달이 스스로 빛나기 때문","달이 지구 주위를 돌기 때문","지구가 자전하기 때문","태양이 움직이기 때문"],ans:1,ex:"달이 지구 주위를 돌면서 태양빛을 받는 면이 달라져 모양이 변해요."},
+      {q:"동물 분류 시 '척추동물'과 '무척추동물'의 기준은?",opts:["크기","다리 유무","척추(등뼈) 유무","날개 유무"],ans:2,ex:"척추(등뼈)가 있으면 척추동물, 없으면 무척추동물이에요."},
+      {q:"물의 세 가지 상태가 아닌 것은?",opts:["고체(얼음)","액체(물)","기체(수증기)","플라스마"],ans:3,ex:"초등학교에서 배우는 물의 세 상태는 고체·액체·기체예요."},
+      {q:"식물의 광합성 결과 만들어지는 것은?",opts:["이산화탄소","산소와 포도당","질소","소금"],ans:1,ex:"광합성으로 산소와 포도당(양분)이 만들어져요."},
+      {q:"모든 생물의 기본 단위는?",opts:["원자","분자","세포","조직"],ans:2,ex:"모든 생물은 세포로 이루어져 있어요."},
+      {q:"빛의 7가지 색 중 파장이 가장 긴 것은?",opts:["보라","파랑","초록","빨강"],ans:3,ex:"빨강이 파장이 가장 길고, 보라가 가장 짧아요."},
+      {q:"돋보기로 볼 때 물체가 어떻게 보이나요?",opts:["작게","크게","같게","거꾸로"],ans:1,ex:"돋보기(볼록 렌즈)로 보면 물체가 크게 보여요."},
+      {q:"비가 오기 전 구름의 색은?",opts:["흰색","빨간색","회색이나 검은색","초록색"],ans:2,ex:"비구름은 수분이 많아 빛을 가려 회색이나 검게 보여요."},
+      {q:"지구의 자전 방향은?",opts:["서→동(서에서 동으로)","동→서","남→북","북→남"],ans:0,ex:"지구는 서쪽에서 동쪽으로 자전해요. 그래서 해가 동쪽에서 뜨고 서쪽으로 져요."},
+      {q:"동물이 겨울을 나는 방법이 아닌 것은?",opts:["겨울잠","털갈이","먹이 저장","광합성"],ans:3,ex:"광합성은 식물이 하는 거예요. 동물은 겨울잠·털갈이·먹이 저장으로 겨울을 나요."},
+      {q:"식물의 열매 역할은?",opts:["광합성","씨앗 보호 및 퍼뜨리기","물 흡수","지지"],ans:1,ex:"열매는 씨앗을 보호하고, 동물에 먹혀 씨앗을 퍼뜨려요."},
+      {q:"뼈와 뼈가 연결되는 부분은?",opts:["근육","관절","힘줄","인대"],ans:1,ex:"관절은 뼈와 뼈가 연결되어 움직일 수 있게 하는 부분이에요."},
+      {q:"공기 중 가장 많은 기체는?",opts:["산소","이산화탄소","질소","수소"],ans:2,ex:"공기의 약 78%가 질소예요."},
+      {q:"식물이 밤에 하는 것은?",opts:["광합성만","호흡만","광합성+호흡","아무것도 안 한다"],ans:1,ex:"식물은 밤에 빛이 없어 광합성을 못 하고 호흡만 해요."},
+      {q:"볼록 렌즈를 통과한 빛은?",opts:["퍼진다","모인다","꺾이지 않는다","사라진다"],ans:1,ex:"볼록 렌즈는 빛을 한 점으로 모아요. 돋보기가 볼록 렌즈예요."},
+      {q:"식물 세포에만 있는 것은?",opts:["세포막","핵","엽록체","미토콘드리아"],ans:2,ex:"엽록체는 식물 세포에만 있어요. 광합성을 하는 곳이에요."},
+      {q:"달이 지구 주위를 한 바퀴 도는 시간은?",opts:["하루","1주일","약 한 달(29.5일)","1년"],ans:2,ex:"달은 약 29.5일에 한 번 지구를 공전해요."},
+      {q:"다음 중 포유류가 아닌 것은?",opts:["고래","박쥐","닭","소"],ans:2,ex:"닭은 조류예요. 포유류는 젖을 먹여 새끼를 키워요."},
+      {q:"나침반이 북쪽을 가리키는 이유는?",opts:["지구가 거대한 자석이기 때문","태양 때문","달 때문","바람 때문"],ans:0,ex:"지구 자체가 커다란 자석이라 나침반이 북쪽을 가리켜요."},
+      {q:"동물이 이동하는 이유가 아닌 것은?",opts:["먹이 찾기","번식","자랑하기","온도 적응"],ans:2,ex:"동물은 먹이·번식·온도 때문에 이동해요. 자랑하기 위해서가 아니에요."},
+      {q:"우리 몸에서 소리를 듣는 기관은?",opts:["눈","코","귀","입"],ans:2,ex:"귀로 소리를 들어요."},
+      {q:"식물의 뿌리가 하는 일이 아닌 것은?",opts:["물 흡수","고정","양분 저장","광합성"],ans:3,ex:"광합성은 잎이 해요. 뿌리는 물 흡수·고정·양분 저장이에요."},
+      {q:"물의 응결이란?",opts:["물이 증발하는 것","수증기가 물방울이 되는 것","물이 어는 것","물이 끓는 것"],ans:1,ex:"수증기(기체)가 식어 물방울(액체)이 되는 것을 응결이라 해요."},
+      {q:"다음 중 조류(새)의 특징은?",opts:["네 발","깃털과 날개","비늘","아가미"],ans:1,ex:"새는 깃털과 날개가 있어요."},
+      {q:"빛의 반사란?",opts:["빛이 꺾이는 것","빛이 물체에 부딪혀 돌아오는 것","빛이 사라지는 것","빛이 퍼지는 것"],ans:1,ex:"빛이 물체에 부딪혀 돌아오는 것을 반사라 해요. 거울이 대표적이에요."},
+      {q:"흙의 구성 요소가 아닌 것은?",opts:["모래","자갈","부식물(죽은 생물)","철판"],ans:3,ex:"흙은 모래·자갈·부식물·물·공기 등으로 이루어져요."},
+      {q:"씨앗에서 가장 먼저 나오는 부분은?",opts:["잎","줄기","뿌리","꽃"],ans:2,ex:"씨앗이 발아하면 가장 먼저 뿌리가 나와요."},
+      {q:"사람이 호흡할 때 들이마시는 기체는?",opts:["이산화탄소","질소","산소","수소"],ans:2,ex:"사람은 산소를 들이마시고 이산화탄소를 내쉬어요."},
+      {q:"소리가 가장 빠르게 전달되는 곳은?",opts:["공기","물","쇠(금속)","진공"],ans:2,ex:"소리는 고체>액체>기체 순으로 빠르게 전달돼요."},
+      {q:"식물에서 물이 이동하는 경로는?",opts:["잎→줄기→뿌리","뿌리→줄기→잎","꽃→잎→줄기","줄기→뿌리→잎"],ans:1,ex:"물은 뿌리→줄기→잎 순서로 이동해요."},
+      {q:"달의 모양 변화 순서로 알맞은 것은?",opts:["초승달→반달→보름달","보름달→초승달→반달","반달→보름달→초승달","초승달→보름달→반달"],ans:0,ex:"달은 초승달→상현달(반달)→보름달→하현달(반달)→그믐달 순으로 변해요."},
+      {q:"온도계로 측정하는 것은?",opts:["무게","길이","온도","압력"],ans:2,ex:"온도계는 온도(°C)를 측정하는 도구예요."},
+      {q:"다음 중 파충류는?",opts:["개구리","도마뱀","독수리","고래"],ans:1,ex:"도마뱀은 비늘이 있는 파충류예요. 개구리는 양서류예요."},
+      {q:"지층이 쌓이는 순서는?",opts:["위층이 먼저","아래층이 먼저","동시에","알 수 없다"],ans:1,ex:"지층은 오래된 것이 아래에, 새로운 것이 위에 쌓여요."},
+      {q:"화석이란?",opts:["단단한 돌","옛날 생물의 흔적이 돌에 남은 것","광물","흙"],ans:1,ex:"화석은 오래전 생물의 흔적이 암석에 보존된 것이에요."},
+      {q:"지구의 표면 중 물이 차지하는 비율은?",opts:["약 30%","약 50%","약 70%","약 90%"],ans:2,ex:"지구 표면의 약 70%는 물(바다)이에요."},
+      {q:"별이 낮에 보이지 않는 이유는?",opts:["별이 사라져서","태양빛이 너무 밝아서","구름 때문에","바람 때문에"],ans:1,ex:"낮에는 태양빛이 너무 밝아 별빛이 가려져요."},
+      {q:"건강한 뼈를 위해 필요한 영양소는?",opts:["단백질","지방","칼슘","탄수화물"],ans:2,ex:"뼈를 튼튼하게 하려면 칼슘이 필요해요."},
+      {q:"비 오는 날 빗물이 땅에 흡수되는 까닭은?",opts:["흙에 구멍이 많아서","흙이 빗물을 좋아해서","흙이 녹아서","빗물이 작아서"],ans:0,ex:"흙 사이에 공간(구멍)이 있어 물이 흡수돼요."},
+      {q:"다음 중 기체의 특징은?",opts:["모양이 일정하다","부피가 일정하다","모양과 부피가 변한다","딱딱하다"],ans:2,ex:"기체는 담는 그릇에 따라 모양과 부피가 변해요."}
     ]
   },
   social: {
-    name: "사회", icon: "🌏",
-    bg: "#FFE5E5", iconBg: "#FFBDBD", barColor: "#FF7675",
-    qs: [
-      { q: "고장의 중요한 장소를 표시한 그림은?", opts: ["일기","지도","그림일기","사진첩"], ans: 1, ex: "지도는 우리 고장의 모습을 위에서 내려다본 것처럼 나타낸 그림이에요." },
-      { q: "지도에서 실제 거리를 줄인 정도를 나타내는 것은?", opts: ["방위","축척","범례","등고선"], ans: 1, ex: "축척은 실제 거리를 지도에서 얼마나 줄여 나타냈는지 보여줘요." },
-      { q: "옛날 사람들이 사용하던 물건은?", opts: ["스마트폰","냉장고","맷돌","전기밥솥"], ans: 2, ex: "맷돌은 옛날에 곡식을 갈던 도구예요. 지금은 기계로 대신해요." },
-      { q: "교통수단이 발달하면 어떤 점이 좋을까요?", opts: ["이동 시간이 길어진다","더 멀리 빨리 갈 수 있다","운동을 더 많이 하게 된다","집에 더 많이 있게 된다"], ans: 1, ex: "교통수단이 발달하면 먼 곳까지 빠르게 이동할 수 있어요!" }
+    name:"사회", icon:"🌏",
+    bg:"#FFE5E5", iconBg:"#FFBDBD", barColor:"#FF7675",
+    qs:[
+      {q:"고장의 중요한 장소를 표시한 그림은?",opts:["일기","지도","그림일기","사진첩"],ans:1,ex:"지도는 고장의 모습을 위에서 내려다본 것처럼 나타낸 그림이에요."},
+      {q:"지도에서 실제 거리를 줄인 정도는?",opts:["방위","축척","범례","등고선"],ans:1,ex:"축척은 실제 거리를 지도에서 얼마나 줄였는지 보여줘요."},
+      {q:"옛날 사람들이 사용하던 물건은?",opts:["스마트폰","냉장고","맷돌","전기밥솥"],ans:2,ex:"맷돌은 옛날에 곡식을 갈던 도구예요."},
+      {q:"교통수단이 발달하면 좋은 점은?",opts:["이동 시간이 길어진다","더 멀리 빨리 갈 수 있다","운동을 더 많이 한다","집에 더 많이 있게 된다"],ans:1,ex:"교통수단이 발달하면 먼 곳까지 빠르게 이동할 수 있어요!"},
+      {q:"지도에서 동서남북을 나타내는 것은?",opts:["축척","범례","방위표","등고선"],ans:2,ex:"방위표는 지도에서 동·서·남·북 방향을 알려줘요."},
+      {q:"옛날과 오늘날의 통신수단 변화로 알맞은 것은?",opts:["봉화→스마트폰","자동차→말","비행기→배","인터넷→편지"],ans:0,ex:"옛날엔 봉화·파발, 오늘날엔 스마트폰·인터넷을 써요."},
+      {q:"우리 고장의 문화유산을 보전해야 하는 이유는?",opts:["비싸서","조상의 삶과 지혜를 담아서","예쁘게 생겨서","외국인이 좋아해서"],ans:1,ex:"문화유산에는 조상들의 삶과 지혜가 담겨 있어요."},
+      {q:"가족의 형태가 다양해진 까닭은?",opts:["날씨 때문에","생활방식이 변해서","교통이 발달해서","학교가 많아져서"],ans:1,ex:"사람들의 생활방식과 가치관이 다양해지면서 가족 형태도 다양해졌어요."},
+      {q:"민주주의의 기본 원칙은?",opts:["강한 사람이 결정","다수결의 원칙","어른만 결정","한 사람이 결정"],ans:1,ex:"민주주의에서는 다수결로 결정하되 소수 의견도 존중해요."},
+      {q:"재활용품을 분리 배출하는 이유는?",opts:["예쁘게 보이려고","자원을 절약하고 환경을 보호하기 위해","규칙이라서","쓰레기가 많아서"],ans:1,ex:"분리 배출은 자원 재활용과 환경 보호를 위해서예요."},
+      {q:"지도의 범례란?",opts:["지도의 제목","기호와 색의 의미를 설명한 것","지도의 크기","지도를 만든 사람"],ans:1,ex:"범례는 지도에 사용된 기호·색의 의미를 설명하는 표예요."},
+      {q:"삼권분립에서 '행정부'의 역할은?",opts:["법 만들기","법 집행과 나라 운영","재판하기","세금 걷기만"],ans:1,ex:"행정부(정부)는 법을 집행하고 나라를 실제로 운영해요."},
+      {q:"우리나라의 수도는?",opts:["부산","대전","서울","인천"],ans:2,ex:"대한민국의 수도는 서울이에요."},
+      {q:"지역의 문제를 해결하는 주민 참여 방법이 아닌 것은?",opts:["민원 제기","주민 투표","무시하기","공청회 참여"],ans:2,ex:"주민은 민원·투표·공청회 등으로 지역 문제 해결에 참여해요."},
+      {q:"옛날 사람들이 계절을 알기 위해 사용한 것은?",opts:["스마트폰","달력(음력)","TV","라디오"],ans:1,ex:"옛날에는 달의 모양을 기준으로 한 음력 달력을 사용했어요."},
+      {q:"'세계화'란?",opts:["우리나라만 발전하는 것","나라 간 교류가 활발해지는 것","국경이 없어지는 것","모두 같은 음식을 먹는 것"],ans:1,ex:"세계화는 나라 사이의 교류와 상호 의존이 늘어나는 현상이에요."},
+      {q:"우리나라 고유의 명절이 아닌 것은?",opts:["설날","추석","핼러윈","단오"],ans:2,ex:"핼러윈은 서양 명절이에요. 설날·추석·단오는 우리 고유 명절이에요."},
+      {q:"등고선이 촘촘할수록 지형은?",opts:["평평하다","경사가 완만하다","경사가 가파르다","낮다"],ans:2,ex:"등고선이 촘촘할수록 경사가 급한(가파른) 지형이에요."},
+      {q:"조선 시대 신분 제도에서 가장 높은 계층은?",opts:["평민","천민","양반","중인"],ans:2,ex:"조선 시대에는 양반이 가장 높은 신분이었어요."},
+      {q:"우리나라 국기의 이름은?",opts:["성조기","일장기","태극기","청룡기"],ans:2,ex:"우리나라 국기는 태극기예요."},
+      {q:"환경 오염의 원인이 아닌 것은?",opts:["공장 매연","자동차 매연","나무 심기","쓰레기 매립"],ans:2,ex:"나무 심기는 환경 오염을 줄여요. 나머지는 환경 오염의 원인이에요."},
+      {q:"지역 화폐를 사용하는 이유는?",opts:["전국 어디서나 쓰려고","지역 경제를 살리기 위해","외국에서도 쓰려고","저축하려고"],ans:1,ex:"지역 화폐는 지역 내 소비를 늘려 지역 경제를 활성화해요."},
+      {q:"우리나라 전통 의복은?",opts:["기모노","한복","치파오","사리"],ans:1,ex:"한복은 우리나라 전통 의복이에요."},
+      {q:"시장 경제에서 가격이 오르는 이유는?",opts:["수요보다 공급이 많을 때","공급보다 수요가 많을 때","언제나 오른다","정부가 정한다"],ans:1,ex:"공급보다 수요가 많을 때 가격이 올라요."},
+      {q:"공공 기관이 아닌 것은?",opts:["도서관","경찰서","병원(공립)","백화점"],ans:3,ex:"백화점은 개인이 운영하는 사기업이에요."},
+      {q:"한반도의 동쪽에 있는 바다는?",opts:["서해","남해","동해","황해"],ans:2,ex:"한반도 동쪽에는 동해(East Sea)가 있어요."},
+      {q:"우리나라 최초의 국가는?",opts:["고구려","백제","고조선","신라"],ans:2,ex:"우리나라 최초의 국가는 단군왕검이 세운 고조선이에요."},
+      {q:"다음 중 1차 산업은?",opts:["자동차 제조","농업","은행","백화점"],ans:1,ex:"1차 산업은 자연에서 직접 생산하는 농업·어업·임업 등이에요."},
+      {q:"세금을 내는 이유는?",opts:["의무라서","도로·학교 등 공공 서비스를 위해","국가가 강제해서만","저축하기 위해"],ans:1,ex:"세금은 모든 사람이 이용하는 도로·학교·병원 등을 위해 내요."},
+      {q:"우리나라 국경일이 아닌 것은?",opts:["3.1절","광복절","어린이날","개천절"],ans:2,ex:"어린이날은 기념일이에요. 국경일은 3.1절·광복절·개천절·한글날 등이에요."},
+      {q:"올림픽의 의미는?",opts:["나라 간 전쟁","세계인이 참여하는 스포츠 축제","국내 스포츠 대회","지역 체육 행사"],ans:1,ex:"올림픽은 세계 각국 선수들이 모여 화합과 평화를 나누는 스포츠 축제예요."},
+      {q:"옛날 사람들의 이동 수단은?",opts:["자동차","기차","말·가마","비행기"],ans:2,ex:"옛날에는 말·가마·배 등을 주로 이용했어요."},
+      {q:"저출산이란?",opts:["아이가 많이 태어나는 것","아이가 적게 태어나는 것","노인이 많아지는 것","인구가 늘어나는 것"],ans:1,ex:"저출산은 태어나는 아이 수가 줄어드는 현상이에요."},
+      {q:"고령화 사회란?",opts:["어린이가 많은 사회","노인 인구 비율이 높은 사회","청년이 많은 사회","인구가 적은 사회"],ans:1,ex:"고령화 사회는 전체 인구 중 노인 비율이 높아지는 사회예요."},
+      {q:"선거에서 '비밀 투표'란?",opts:["투표 결과를 숨기는 것","누구에게 투표했는지 드러나지 않는 것","선거를 비밀리에 하는 것","결과를 발표 안 하는 것"],ans:1,ex:"비밀 투표는 누구에게 투표했는지 다른 사람이 알 수 없게 하는 원칙이에요."},
+      {q:"도시와 촌락의 차이가 아닌 것은?",opts:["인구 수","산업 종류","하늘 색깔","생활 모습"],ans:2,ex:"하늘 색깔은 도시·촌락 구분 기준이 아니에요."},
+      {q:"교통 발달로 변화한 것이 아닌 것은?",opts:["먼 곳 이동 편리","물건 유통 빨라짐","언어 통일","사람 교류 증가"],ans:2,ex:"교통 발달이 언어를 통일시키지는 않아요."},
+      {q:"우리나라 행정 구역 중 '특별시'는?",opts:["부산","인천","서울","대전"],ans:2,ex:"서울은 특별시예요. 부산·인천 등은 광역시예요."},
+      {q:"어촌의 주요 산업은?",opts:["농업","어업","광업","제조업"],ans:1,ex:"어촌에서는 주로 어업(물고기 잡기, 양식 등)을 해요."},
+      {q:"산촌의 주요 산업은?",opts:["어업","임업(나무 관련)","제조업","서비스업"],ans:1,ex:"산촌에서는 주로 임업(나무 벌목·채취)을 해요."},
+      {q:"공정 무역이란?",opts:["가장 싸게 사는 것","생산자에게 정당한 가격을 주는 무역","가장 빠른 무역","무관세 무역"],ans:1,ex:"공정 무역은 개발도상국 생산자에게 정당한 대가를 지불하는 무역이에요."},
+      {q:"우리나라에서 투표권을 행사할 수 있는 나이는?",opts:["16세","17세","18세","20세"],ans:2,ex:"현재 우리나라에서는 만 18세 이상이 선거권을 가져요."},
+      {q:"다문화 사회란?",opts:["한 가지 문화만 있는 사회","다양한 문화가 공존하는 사회","외국 문화만 있는 사회","문화가 없는 사회"],ans:1,ex:"다문화 사회는 여러 나라의 다양한 문화가 함께 공존하는 사회예요."},
+      {q:"국제 연합(UN)의 목적은?",opts:["전쟁 일으키기","세계 평화와 협력","무역 확대","인구 증가"],ans:1,ex:"UN은 세계 평화와 국제 협력을 위해 만들어진 국제기구예요."},
+      {q:"우리나라 전통 음식이 아닌 것은?",opts:["김치","불고기","스시(초밥)","비빔밥"],ans:2,ex:"스시는 일본 음식이에요. 김치·불고기·비빔밥은 우리 전통 음식이에요."},
+      {q:"인권이란?",opts:["어른만 가지는 권리","모든 사람이 태어날 때부터 가지는 권리","돈으로 사는 권리","국가가 주는 권리"],ans:1,ex:"인권은 모든 사람이 태어날 때부터 가지는 기본적인 권리예요."},
+      {q:"독도는 우리나라 어느 방향에 있나요?",opts:["서쪽","남쪽","동쪽","북쪽"],ans:2,ex:"독도는 우리나라 동쪽 끝에 있는 섬이에요."},
+      {q:"국민이 가진 기본 의무가 아닌 것은?",opts:["납세의 의무","교육의 의무","국방의 의무","여행의 의무"],ans:3,ex:"헌법상 4대 의무는 납세·교육·국방·근로의 의무예요. 여행은 의무가 아니에요."},
+      {q:"지역 특산물이란?",opts:["다른 나라에서 가져온 물건","그 지역에서 특별히 많이 생산되는 물건","가장 비싼 물건","모든 지역에서 생산되는 물건"],ans:1,ex:"지역 특산물은 그 지역의 기후·환경에 맞게 특별히 많이 생산되는 물건이에요."},
+      {q:"봉사 활동의 의미는?",opts:["돈을 받고 일하는 것","대가 없이 다른 사람을 돕는 것","학교 숙제하는 것","운동하는 것"],ans:1,ex:"봉사 활동은 아무 대가 없이 다른 사람이나 사회를 돕는 것이에요."},
+      {q:"우리나라의 전통 놀이가 아닌 것은?",opts:["윷놀이","제기차기","축구","강강술래"],ans:2,ex:"축구는 영국에서 유래한 스포츠예요. 나머지는 우리 전통 놀이예요."},
+      {q:"'지속 가능한 발전'이란?",opts:["현재 세대만을 위한 개발","미래 세대도 고려하는 발전","무조건 빠른 발전","자연을 무시한 발전"],ans:1,ex:"지속 가능한 발전은 미래 세대의 필요도 충족하면서 현재를 개발하는 것이에요."},
+      {q:"한국전쟁이 일어난 해는?",opts:["1945년","1950년","1960년","1970년"],ans:1,ex:"6·25 전쟁(한국전쟁)은 1950년 6월 25일에 시작되었어요."},
+      {q:"광복절은 언제인가요?",opts:["3월 1일","5월 5일","8월 15일","10월 3일"],ans:2,ex:"광복절은 1945년 8월 15일 일본으로부터 독립한 날을 기념해요."},
+      {q:"'소비'란?",opts:["물건을 만드는 것","물건이나 서비스를 구입해 사용하는 것","저축하는 것","수출하는 것"],ans:1,ex:"소비는 물건이나 서비스를 사서 사용하는 활동이에요."},
+      {q:"생산과 소비의 관계는?",opts:["관계없다","생산한 것을 소비한다","소비하면 생산이 줄어든다","생산은 소비보다 항상 많다"],ans:1,ex:"생산된 물건이나 서비스를 소비해요. 생산과 소비는 경제의 기본 활동이에요."},
+      {q:"우리나라의 삼면이 바다라고 할 때 북쪽에 접한 나라는?",opts:["일본","중국과 북한","러시아만","미국"],ans:1,ex:"우리나라 북쪽으로 중국과 북한(육지)이 접해 있어요."},
+      {q:"시민이 나라의 주인이 되는 제도는?",opts:["왕정","독재","민주주의","귀족 정치"],ans:2,ex:"민주주의는 시민이 주권을 가지고 정치에 참여하는 제도예요."},
+      {q:"빗물이 강→바다→증발→구름→비 순환하는 것은?",opts:["탄소 순환","물의 순환","에너지 순환","영양 순환"],ans:1,ex:"물이 증발→구름→비→강→바다→다시 증발하는 것을 물의 순환이라 해요."},
+      {q:"개천절은 무엇을 기념하는 날?",opts:["독립","고조선 건국","전쟁 끝","한글 창제"],ans:1,ex:"개천절(10월 3일)은 단군왕검이 고조선을 세운 날을 기념해요."},
+      {q:"인터넷의 올바른 사용법은?",opts:["개인 정보 공개","악성 댓글 달기","신뢰할 수 있는 정보 확인","저작권 무시"],ans:2,ex:"인터넷에서는 출처를 확인하고 신뢰할 수 있는 정보만 사용해야 해요."},
+      {q:"경제에서 '희소성'이란?",opts:["물건이 많은 것","원하는 것에 비해 자원이 부족한 것","돈이 많은 것","선택이 쉬운 것"],ans:1,ex:"원하는 것(수요)에 비해 자원이 부족한 것을 희소성이라 해요."},
+      {q:"'협동'의 의미는?",opts:["혼자서 모두 하는 것","서로 힘을 합쳐 돕는 것","경쟁하는 것","무시하는 것"],ans:1,ex:"협동은 공동의 목표를 위해 서로 힘을 합쳐 돕는 것이에요."},
+      {q:"장애인을 위한 편의 시설이 아닌 것은?",opts:["점자 블록","경사로","자동문","미끄럼틀"],ans:3,ex:"미끄럼틀은 놀이 기구예요. 점자 블록·경사로·자동문이 장애인 편의 시설이에요."},
+      {q:"우리나라 행정부의 수반은?",opts:["국회의장","대법원장","대통령","국무총리"],ans:2,ex:"대통령이 행정부의 수반이에요."},
+      {q:"지역 간 교류의 좋은 점이 아닌 것은?",opts:["다양한 물건 교환","문화 교류","지역 갈등 해소","지역 특색 없어짐"],ans:3,ex:"교류는 지역 특색을 없애는 게 아니라 각 지역의 장점을 나눠요."},
+      {q:"'촌락'에 해당하지 않는 것은?",opts:["농촌","어촌","산촌","도시"],ans:3,ex:"촌락은 농촌·어촌·산촌 등이에요. 도시는 촌락이 아니에요."},
+      {q:"우리나라 최대 명절은?",opts:["설날과 추석","핼러윈과 크리스마스","어린이날과 어버이날","삼일절과 광복절"],ans:0,ex:"설날과 추석이 우리나라의 가장 큰 명절이에요."},
+      {q:"글로벌 환경 문제가 아닌 것은?",opts:["지구 온난화","오존층 파괴","미세먼지","동물 멸종","나무 심기"],ans:4,ex:"나무 심기는 환경 문제가 아니라 환경을 개선하는 활동이에요."}
     ]
   },
   english: {
-    name: "영어", icon: "🔤",
-    bg: "#DCF0FF", iconBg: "#85B7EB", barColor: "#0984E3",
-    qs: [
-      { q: "What color is the sky?\n(하늘은 무슨 색인가요?)", opts: ["Red","Blue","Green","Yellow"], ans: 1, ex: "The sky is blue! 하늘은 파란색이에요." },
-      { q: "'사과'를 영어로 하면?", opts: ["Orange","Banana","Apple","Grape"], ans: 2, ex: "사과는 영어로 'Apple'이에요." },
-      { q: "숫자 7을 영어로 하면?", opts: ["Five","Six","Seven","Eight"], ans: 2, ex: "7은 영어로 'Seven'이에요." },
-      { q: "'안녕하세요'를 영어로 하면?", opts: ["Thank you","Hello","Goodbye","Sorry"], ans: 1, ex: "'Hello'는 '안녕하세요'라는 뜻이에요!" },
-      { q: "다음 중 동물 이름이 아닌 것은?", opts: ["Cat","Dog","Chair","Bird"], ans: 2, ex: "'Chair'는 의자예요. Cat(고양이), Dog(강아지), Bird(새)는 모두 동물이에요." }
+    name:"영어", icon:"🔤",
+    bg:"#DCF0FF", iconBg:"#85B7EB", barColor:"#0984E3",
+    qs:[
+      {q:"What color is the sky? (하늘 색깔은?)",opts:["Red","Blue","Green","Yellow"],ans:1,ex:"The sky is blue! 하늘은 파란색이에요."},
+      {q:"사과를 영어로?",opts:["Orange","Banana","Apple","Grape"],ans:2,ex:"사과는 'Apple'이에요."},
+      {q:"숫자 7을 영어로?",opts:["Five","Six","Seven","Eight"],ans:2,ex:"7은 'Seven'이에요."},
+      {q:"'안녕하세요'를 영어로?",opts:["Thank you","Hello","Goodbye","Sorry"],ans:1,ex:"'Hello'는 '안녕하세요'예요."},
+      {q:"동물 이름이 아닌 것은?",opts:["Cat","Dog","Chair","Bird"],ans:2,ex:"'Chair'는 의자예요. 나머지는 동물이에요."},
+      {q:"'감사합니다'를 영어로?",opts:["Sorry","Hello","Thank you","Goodbye"],ans:2,ex:"'Thank you'가 '감사합니다'예요."},
+      {q:"'빨간색'을 영어로?",opts:["Blue","Green","Red","Yellow"],ans:2,ex:"빨간색은 'Red'예요."},
+      {q:"숫자 10을 영어로?",opts:["Eight","Nine","Ten","Eleven"],ans:2,ex:"10은 'Ten'이에요."},
+      {q:"'학교'를 영어로?",opts:["Hospital","Park","School","Library"],ans:2,ex:"학교는 'School'이에요."},
+      {q:"'책'을 영어로?",opts:["Pen","Book","Bag","Desk"],ans:1,ex:"책은 'Book'이에요."},
+      {q:"'고양이'를 영어로?",opts:["Dog","Cat","Bird","Fish"],ans:1,ex:"고양이는 'Cat'이에요."},
+      {q:"'물'을 영어로?",opts:["Milk","Juice","Water","Coffee"],ans:2,ex:"물은 'Water'이에요."},
+      {q:"'엄마'를 영어로?",opts:["Father","Mother","Brother","Sister"],ans:1,ex:"엄마는 'Mother'이에요."},
+      {q:"'아빠'를 영어로?",opts:["Father","Mother","Uncle","Aunt"],ans:0,ex:"아빠는 'Father'이에요."},
+      {q:"숫자 1을 영어로?",opts:["Zero","One","Two","Three"],ans:1,ex:"1은 'One'이에요."},
+      {q:"'파란색'을 영어로?",opts:["Red","Green","Blue","White"],ans:2,ex:"파란색은 'Blue'예요."},
+      {q:"'강아지'를 영어로?",opts:["Cat","Dog","Rabbit","Hamster"],ans:1,ex:"강아지는 'Dog'이에요."},
+      {q:"'사과'의 색깔을 영어로?",opts:["Blue","Green or Red","Yellow","White"],ans:1,ex:"사과는 주로 빨간색(Red) 또는 초록색(Green)이에요."},
+      {q:"'나는 학생이에요'를 영어로?",opts:["I am a teacher","I am a student","You are a student","He is a student"],ans:1,ex:"'I am a student'가 '나는 학생이에요'예요."},
+      {q:"'좋은 아침이에요'를 영어로?",opts:["Good night","Good afternoon","Good morning","Good evening"],ans:2,ex:"'Good morning'은 아침 인사예요."},
+      {q:"'바나나'를 영어로?",opts:["Mango","Banana","Melon","Strawberry"],ans:1,ex:"바나나는 'Banana'예요."},
+      {q:"숫자 5를 영어로?",opts:["Three","Four","Five","Six"],ans:2,ex:"5는 'Five'예요."},
+      {q:"'초록색'을 영어로?",opts:["Red","Green","Blue","Yellow"],ans:1,ex:"초록색은 'Green'이에요."},
+      {q:"'선생님'을 영어로?",opts:["Student","Doctor","Teacher","Police"],ans:2,ex:"선생님은 'Teacher'이에요."},
+      {q:"'의자'를 영어로?",opts:["Table","Desk","Chair","Sofa"],ans:2,ex:"의자는 'Chair'예요."},
+      {q:"'I like cats'의 뜻은?",opts:["나는 고양이가 싫다","나는 고양이를 좋아한다","고양이가 나를 좋아한다","고양이는 귀엽다"],ans:1,ex:"'I like ~'는 '나는 ~을 좋아한다'예요."},
+      {q:"'봄'을 영어로?",opts:["Summer","Fall","Winter","Spring"],ans:3,ex:"봄은 'Spring'이에요."},
+      {q:"'여름'을 영어로?",opts:["Spring","Summer","Fall","Winter"],ans:1,ex:"여름은 'Summer'예요."},
+      {q:"'가을'을 영어로?",opts:["Spring","Summer","Fall/Autumn","Winter"],ans:2,ex:"가을은 'Fall' 또는 'Autumn'이에요."},
+      {q:"'겨울'을 영어로?",opts:["Spring","Summer","Fall","Winter"],ans:3,ex:"겨울은 'Winter'예요."},
+      {q:"'노란색'을 영어로?",opts:["Red","Blue","Green","Yellow"],ans:3,ex:"노란색은 'Yellow'예요."},
+      {q:"'흰색'을 영어로?",opts:["Black","White","Gray","Pink"],ans:1,ex:"흰색은 'White'예요."},
+      {q:"'검은색'을 영어로?",opts:["Black","White","Brown","Purple"],ans:0,ex:"검은색은 'Black'이에요."},
+      {q:"'빵'을 영어로?",opts:["Rice","Bread","Noodle","Cake"],ans:1,ex:"빵은 'Bread'예요."},
+      {q:"'우유'를 영어로?",opts:["Water","Juice","Milk","Coffee"],ans:2,ex:"우유는 'Milk'예요."},
+      {q:"'My name is Minho'의 뜻은?",opts:["내 이름은 민호이다","너의 이름은 민호이다","그의 이름은 민호이다","우리 이름은 민호이다"],ans:0,ex:"'My name is ~'는 '내 이름은 ~이다'예요."},
+      {q:"'How are you?'의 뜻은?",opts:["어디 가니?","잘 지내니?","몇 살이니?","이름이 뭐니?"],ans:1,ex:"'How are you?'는 '잘 지내니?'예요."},
+      {q:"'I'm fine'의 뜻은?",opts:["나는 슬프다","나는 괜찮다/잘 지낸다","나는 배고프다","나는 피곤하다"],ans:1,ex:"'I'm fine'은 '나는 잘 지낸다/괜찮다'예요."},
+      {q:"숫자 2를 영어로?",opts:["One","Two","Three","Four"],ans:1,ex:"2는 'Two'예요."},
+      {q:"숫자 3을 영어로?",opts:["One","Two","Three","Four"],ans:2,ex:"3은 'Three'예요."},
+      {q:"'코'를 영어로?",opts:["Eye","Ear","Nose","Mouth"],ans:2,ex:"코는 'Nose'예요."},
+      {q:"'눈(신체)'을 영어로?",opts:["Eye","Ear","Nose","Mouth"],ans:0,ex:"눈은 'Eye'예요."},
+      {q:"'귀'를 영어로?",opts:["Eye","Ear","Nose","Mouth"],ans:1,ex:"귀는 'Ear'예요."},
+      {q:"'입'을 영어로?",opts:["Eye","Ear","Nose","Mouth"],ans:3,ex:"입은 'Mouth'예요."},
+      {q:"'This is a pen'의 뜻은?",opts:["이것은 펜이다","저것은 펜이다","그것은 펜이다","펜이 예쁘다"],ans:0,ex:"'This is ~'는 '이것은 ~이다'예요."},
+      {q:"'What is this?'의 뜻은?",opts:["이것은 무엇이니?","이것은 어디 있니?","이것은 누구 것이니?","이것은 얼마니?"],ans:0,ex:"'What is this?'는 '이것은 무엇이니?'예요."},
+      {q:"'I have a dog'의 뜻은?",opts:["나는 개를 좋아한다","나는 개를 가지고 있다","개가 나를 좋아한다","나는 개가 아니다"],ans:1,ex:"'I have ~'는 '나는 ~을 가지고 있다'예요."},
+      {q:"'병원'을 영어로?",opts:["School","Hospital","Library","Park"],ans:1,ex:"병원은 'Hospital'이에요."},
+      {q:"'공원'을 영어로?",opts:["School","Hospital","Library","Park"],ans:3,ex:"공원은 'Park'예요."},
+      {q:"숫자 4를 영어로?",opts:["Three","Four","Five","Six"],ans:1,ex:"4는 'Four'예요."},
+      {q:"숫자 6을 영어로?",opts:["Five","Six","Seven","Eight"],ans:1,ex:"6은 'Six'예요."},
+      {q:"숫자 8을 영어로?",opts:["Six","Seven","Eight","Nine"],ans:2,ex:"8은 'Eight'예요."},
+      {q:"숫자 9를 영어로?",opts:["Seven","Eight","Nine","Ten"],ans:2,ex:"9는 'Nine'이에요."},
+      {q:"'딸기'를 영어로?",opts:["Apple","Strawberry","Grape","Mango"],ans:1,ex:"딸기는 'Strawberry'예요."},
+      {q:"'포도'를 영어로?",opts:["Apple","Orange","Grape","Peach"],ans:2,ex:"포도는 'Grape'예요."},
+      {q:"'오렌지'를 영어로?",opts:["Apple","Mango","Orange","Lemon"],ans:2,ex:"오렌지는 'Orange'예요."},
+      {q:"'Where are you from?'의 뜻은?",opts:["어디 가니?","어디 출신이니?","어디에 있니?","어디서 왔니?"],ans:3,ex:"'Where are you from?'은 '어디서 왔니?/어디 출신이니?'예요."},
+      {q:"'I am from Korea'의 뜻은?",opts:["나는 한국에 간다","나는 한국 출신이다","나는 한국을 좋아한다","나는 한국 사람이 아니다"],ans:1,ex:"'I am from ~'은 '나는 ~ 출신이다'예요."},
+      {q:"'Happy birthday!'의 뜻은?",opts:["즐거운 방학!","행복한 하루!","생일 축하해!","잘 자!"],ans:2,ex:"'Happy birthday!'는 '생일 축하해!'예요."},
+      {q:"'Good night'의 뜻은?",opts:["좋은 아침","안녕히 주무세요/잘 자","좋은 오후","좋은 저녁"],ans:1,ex:"'Good night'은 잠자리에 들기 전 '잘 자요'예요."},
+      {q:"'분홍색'을 영어로?",opts:["Red","Purple","Pink","Orange"],ans:2,ex:"분홍색은 'Pink'예요."},
+      {q:"'보라색'을 영어로?",opts:["Pink","Purple","Blue","Gray"],ans:1,ex:"보라색은 'Purple'이에요."},
+      {q:"'물고기'를 영어로?",opts:["Bird","Fish","Frog","Turtle"],ans:1,ex:"물고기는 'Fish'예요."},
+      {q:"'나무'를 영어로?",opts:["Flower","Grass","Tree","Leaf"],ans:2,ex:"나무는 'Tree'예요."},
+      {q:"'꽃'을 영어로?",opts:["Flower","Grass","Tree","Leaf"],ans:0,ex:"꽃은 'Flower'예요."},
+      {q:"'Do you like pizza?'의 뜻은?",opts:["너는 피자를 만드니?","너는 피자를 좋아하니?","피자가 어디 있니?","피자를 먹어라"],ans:1,ex:"'Do you like ~?'는 '너는 ~을 좋아하니?'예요."},
+      {q:"'Yes, I do'의 뜻은?",opts:["아니요","응, 그래","잘 모르겠어","나는 한다"],ans:1,ex:"'Yes, I do'는 긍정의 대답으로 '응, 그래'예요."},
+      {q:"'No, I don't'의 뜻은?",opts:["응, 그래","아니야, 안 해","모르겠어","해봐"],ans:1,ex:"'No, I don't'는 부정의 대답으로 '아니야, 안 해'예요."},
+      {q:"'크다'를 영어로?",opts:["Small","Big","Tall","Short"],ans:1,ex:"크다는 'Big'이에요. 작다는 'Small'이에요."},
+      {q:"'작다'를 영어로?",opts:["Big","Small","Large","Huge"],ans:1,ex:"작다는 'Small'이에요."},
+      {q:"'빠르다'를 영어로?",opts:["Slow","Fast","Quiet","Loud"],ans:1,ex:"빠르다는 'Fast'예요."},
+      {q:"'느리다'를 영어로?",opts:["Fast","Quick","Slow","Swift"],ans:2,ex:"느리다는 'Slow'예요."},
+      {q:"'월요일'을 영어로?",opts:["Sunday","Monday","Tuesday","Wednesday"],ans:1,ex:"월요일은 'Monday'예요."},
+      {q:"'일요일'을 영어로?",opts:["Saturday","Sunday","Monday","Friday"],ans:1,ex:"일요일은 'Sunday'예요."},
+      {q:"'토요일'을 영어로?",opts:["Friday","Saturday","Sunday","Monday"],ans:1,ex:"토요일은 'Saturday'예요."},
+      {q:"'1월'을 영어로?",opts:["February","March","January","April"],ans:2,ex:"1월은 'January'예요."},
+      {q:"'12월'을 영어로?",opts:["November","December","October","January"],ans:1,ex:"12월은 'December'예요."},
+      {q:"'형/오빠'를 영어로?",opts:["Brother","Sister","Father","Mother"],ans:0,ex:"형/오빠는 'Brother'예요."},
+      {q:"'여동생/언니·누나'를 영어로?",opts:["Brother","Mother","Sister","Aunt"],ans:2,ex:"여동생/언니/누나는 'Sister'예요."},
+      {q:"'손'을 영어로?",opts:["Foot","Hand","Arm","Leg"],ans:1,ex:"손은 'Hand'예요."},
+      {q:"'발'을 영어로?",opts:["Hand","Arm","Foot","Leg"],ans:2,ex:"발은 'Foot'예요."},
+      {q:"'How old are you?'의 뜻은?",opts:["몇 살이니?","어디 살아?","이름이 뭐니?","어디 가니?"],ans:0,ex:"'How old are you?'는 '몇 살이니?'예요."},
+      {q:"'I am 9 years old'의 뜻은?",opts:["나는 9명이다","나는 9살이다","나는 9학년이다","나는 9반이다"],ans:1,ex:"'I am ~ years old'는 '나는 ~살이다'예요."},
+      {q:"'밥/쌀'을 영어로?",opts:["Bread","Rice","Noodle","Soup"],ans:1,ex:"밥/쌀은 'Rice'예요."},
+      {q:"'수영하다'를 영어로?",opts:["Run","Jump","Swim","Fly"],ans:2,ex:"수영하다는 'Swim'이에요."},
+      {q:"'달리다'를 영어로?",opts:["Walk","Run","Jump","Sleep"],ans:1,ex:"달리다는 'Run'이에요."},
+      {q:"'잠자다'를 영어로?",opts:["Eat","Drink","Sleep","Read"],ans:2,ex:"잠자다는 'Sleep'이에요."},
+      {q:"'읽다'를 영어로?",opts:["Write","Draw","Read","Sing"],ans:2,ex:"읽다는 'Read'예요."},
+      {q:"'쓰다(글)'를 영어로?",opts:["Read","Write","Draw","Paint"],ans:1,ex:"(글을) 쓰다는 'Write'예요."},
+      {q:"'노래하다'를 영어로?",opts:["Dance","Sing","Play","Listen"],ans:1,ex:"노래하다는 'Sing'이에요."},
+      {q:"'춤추다'를 영어로?",opts:["Sing","Dance","Jump","Run"],ans:1,ex:"춤추다는 'Dance'예요."},
+      {q:"'What do you want?'의 뜻은?",opts:["너는 뭘 갖고 있니?","너는 뭘 원하니?","너는 뭘 먹니?","너는 어디 가니?"],ans:1,ex:"'What do you want?'는 '너는 뭘 원하니?'예요."},
+      {q:"'Please'의 뜻은?",opts:["감사합니다","죄송합니다","부탁해요","괜찮아요"],ans:2,ex:"'Please'는 부탁할 때 쓰는 '~해 주세요/부탁해요'예요."},
+      {q:"'Sorry'의 뜻은?",opts:["감사합니다","미안해요","괜찮아요","잘 먹었습니다"],ans:1,ex:"'Sorry'는 '미안해요'예요."},
+      {q:"'It's okay'의 뜻은?",opts:["미안해요","괜찮아요","감사해요","잘 자요"],ans:1,ex:"'It's okay'는 '괜찮아요'예요."},
+      {q:"'날씨'를 영어로?",opts:["Season","Climate","Weather","Temperature"],ans:2,ex:"날씨는 'Weather'예요."},
+      {q:"'오늘 날씨 어때?'를 영어로?",opts:["What's the weather like today?","How is the season?","What day is today?","Where is the weather?"],ans:0,ex:"'What's the weather like today?'가 '오늘 날씨 어때?'예요."},
+      {q:"'It's sunny'의 뜻은?",opts:["비가 온다","흐리다","맑고 화창하다","눈이 온다"],ans:2,ex:"'It's sunny'는 '맑고 화창해요'예요."},
+      {q:"'It's raining'의 뜻은?",opts:["눈이 와요","비가 와요","바람이 불어요","흐려요"],ans:1,ex:"'It's raining'은 '비가 오고 있어요'예요."}
     ]
   },
   music: {
-    name: "음악", icon: "🎵",
-    bg: "#FFE0F0", iconBg: "#F4C0D1", barColor: "#E84393",
-    qs: [
-      { q: "음의 높낮이를 나타내는 기호는?", opts: ["박자표","음자리표","쉼표","이음줄"], ans: 1, ex: "음자리표는 음의 높낮이를 나타내는 기호예요. 높은음자리표·낮은음자리표가 있어요." },
-      { q: "4분음표 1개와 박자가 같은 것은?", opts: ["온음표","2분음표","8분음표 2개","16분음표 1개"], ans: 2, ex: "8분음표 1개는 4분음표의 절반이므로, 2개를 합치면 4분음표 1개와 같아요." },
-      { q: "박자를 세는 기구는?", opts: ["피아노","메트로놈","바이올린","플루트"], ans: 1, ex: "메트로놈은 일정한 박자를 소리로 알려주는 기구예요!" }
+    name:"음악", icon:"🎵",
+    bg:"#FFE0F0", iconBg:"#F4C0D1", barColor:"#E84393",
+    qs:[
+      {q:"음의 높낮이를 나타내는 기호는?",opts:["박자표","음자리표","쉼표","이음줄"],ans:1,ex:"음자리표는 음의 높낮이를 나타내요."},
+      {q:"4분음표 1개와 박자가 같은 것은?",opts:["온음표","2분음표","8분음표 2개","16분음표 1개"],ans:2,ex:"8분음표 2개=4분음표 1개예요."},
+      {q:"박자를 세는 기구는?",opts:["피아노","메트로놈","바이올린","플루트"],ans:1,ex:"메트로놈은 박자를 알려주는 기구예요."},
+      {q:"온음표의 박자는?",opts:["1박","2박","3박","4박"],ans:3,ex:"온음표는 4박이에요."},
+      {q:"2분음표의 박자는?",opts:["1박","2박","3박","4박"],ans:1,ex:"2분음표는 2박이에요."},
+      {q:"4분음표의 박자는?",opts:["1박","2박","3박","4박"],ans:0,ex:"4분음표는 1박이에요."},
+      {q:"8분음표의 박자는?",opts:["1/2박","1박","2박","4박"],ans:0,ex:"8분음표는 반박(1/2박)이에요."},
+      {q:"4/4박자에서 한 마디에 들어가는 4분음표 수는?",opts:["2개","3개","4개","8개"],ans:2,ex:"4/4박자는 한 마디에 4분음표 4개예요."},
+      {q:"3/4박자는?",opts:["한 마디에 4분음표 3개","한 마디에 4분음표 4개","한 마디에 8분음표 3개","한 마디에 온음표 3개"],ans:0,ex:"3/4박자는 한 마디에 4분음표 3개예요."},
+      {q:"높은음자리표가 나타내는 것은?",opts:["낮은 음역","높은 음역","중간 음역","모든 음역"],ans:1,ex:"높은음자리표는 높은 음역을 나타내요."},
+      {q:"낮은음자리표가 나타내는 것은?",opts:["높은 음역","낮은 음역","중간 음역","모든 음역"],ans:1,ex:"낮은음자리표는 낮은 음역(베이스)을 나타내요."},
+      {q:"'도레미파솔라시도'에서 음의 수는?",opts:["6개","7개","8개","9개"],ans:1,ex:"도·레·미·파·솔·라·시 7개예요. (옥타브 도는 같은 음)"},
+      {q:"셈여림에서 'f(포르테)'의 의미는?",opts:["여리게","보통으로","세게","아주 여리게"],ans:2,ex:"f(forte, 포르테)는 '세게' 연주하라는 표시예요."},
+      {q:"셈여림에서 'p(피아노)'의 의미는?",opts:["여리게","세게","보통으로","아주 세게"],ans:0,ex:"p(piano, 피아노)는 '여리게' 연주하라는 표시예요."},
+      {q:"빠르기말 'Allegro(알레그로)'의 의미는?",opts:["빠르게","느리게","보통 빠르게","아주 느리게"],ans:0,ex:"Allegro는 '빠르게'를 의미해요."},
+      {q:"빠르기말 'Andante(안단테)'의 의미는?",opts:["빠르게","느리게","걷는 빠르기로","아주 빠르게"],ans:2,ex:"Andante는 '걷는 빠르기로'예요."},
+      {q:"음악에서 쉼표란?",opts:["소리 내는 부분","소리를 내지 않는 부분","박자를 바꾸는 표시","음의 높이 표시"],ans:1,ex:"쉼표는 소리를 내지 않고 쉬는 부분이에요."},
+      {q:"이음줄(슬러)의 역할은?",opts:["음을 짧게 끊어서","음을 이어서 부드럽게","빠르게 연주","박자를 바꾸기"],ans:1,ex:"이음줄은 두 음 이상을 이어서 부드럽게 연주하게 해요."},
+      {q:"스타카토(.) 기호의 의미는?",opts:["음을 길게","음을 짧고 끊어서","음을 세게","음을 여리게"],ans:1,ex:"스타카토는 음을 짧고 끊어서 연주해요."},
+      {q:"악보에서 반복 기호가 나오면?",opts:["처음부터 다시","표시 구간을 다시","끝까지 건너뜀","전부 건너뜀"],ans:1,ex:"반복 기호(||: :||)가 있으면 그 구간을 다시 연주해요."},
+      {q:"리코더는 어떤 악기인가요?",opts:["현악기","타악기","관악기","건반악기"],ans:2,ex:"리코더는 입으로 불어서 소리 내는 관악기예요."},
+      {q:"드럼은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:2,ex:"드럼은 두드려서 소리 내는 타악기예요."},
+      {q:"피아노는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:3,ex:"피아노는 건반(키)을 눌러 연주하는 건반악기예요."},
+      {q:"바이올린은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:0,ex:"바이올린은 줄(현)을 활로 켜서 소리 내는 현악기예요."},
+      {q:"트럼펫은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:1,ex:"트럼펫은 입으로 불어 소리 내는 관악기예요."},
+      {q:"'크레셴도(crescendo)'의 의미는?",opts:["점점 여리게","점점 세게","빠르게","느리게"],ans:1,ex:"크레셴도(crescendo)는 점점 세게 연주하라는 표시예요."},
+      {q:"'디크레셴도(decrescendo)'의 의미는?",opts:["점점 세게","점점 여리게","빠르게","느리게"],ans:1,ex:"디크레셴도는 점점 여리게 연주하라는 표시예요."},
+      {q:"음악의 3요소가 아닌 것은?",opts:["리듬","가락(멜로디)","화음","가사"],ans:3,ex:"음악의 3요소는 리듬·가락·화음이에요. 가사는 요소가 아니에요."},
+      {q:"리듬이란?",opts:["음의 높낮이","음의 길고 짧음의 반복","음의 세기","음의 색깔"],ans:1,ex:"리듬은 음의 길고 짧음이 일정하게 반복되는 패턴이에요."},
+      {q:"가락(멜로디)이란?",opts:["리듬만","음의 높낮이 변화","화음","박자"],ans:1,ex:"가락은 음의 높낮이가 변하며 이루어지는 선율이에요."},
+      {q:"화음이란?",opts:["하나의 음","두 개 이상의 음이 동시에 울리는 것","빠른 음","높은 음"],ans:1,ex:"화음은 두 개 이상의 음이 동시에 어울려 울리는 것이에요."},
+      {q:"'mp(메조피아노)'는?",opts:["아주 여리게","조금 여리게","보통으로","조금 세게"],ans:1,ex:"mp(mezzo piano)는 '조금 여리게'예요."},
+      {q:"'mf(메조포르테)'는?",opts:["아주 세게","조금 여리게","조금 세게","아주 여리게"],ans:2,ex:"mf(mezzo forte)는 '조금 세게'예요."},
+      {q:"음악에서 '박자'란?",opts:["음의 높낮이","음의 일정한 강약 패턴","음의 색깔","음의 빠르기"],ans:1,ex:"박자는 강한 음과 약한 음이 일정하게 반복되는 것이에요."},
+      {q:"우리나라 전통 악기가 아닌 것은?",opts:["가야금","장구","거문고","피아노"],ans:3,ex:"피아노는 서양 악기예요. 가야금·장구·거문고는 우리 전통 악기예요."},
+      {q:"장구는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:2,ex:"장구는 두드려서 소리 내는 타악기예요."},
+      {q:"가야금은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:0,ex:"가야금은 12개의 줄을 손가락으로 뜯어 연주하는 현악기예요."},
+      {q:"국악에서 빠른 장단은?",opts:["진양조","중모리","자진모리","느린모리"],ans:2,ex:"자진모리는 국악 장단 중 빠른 편이에요."},
+      {q:"'Largo(라르고)'는?",opts:["매우 빠르게","보통 빠르기로","매우 느리게","조금 빠르게"],ans:2,ex:"Largo는 '매우 느리게'를 의미해요."},
+      {q:"'Presto(프레스토)'는?",opts:["매우 빠르게","보통 빠르기로","매우 느리게","조금 느리게"],ans:0,ex:"Presto는 '매우 빠르게'를 의미해요."},
+      {q:"음표의 머리(노트 헤드)가 검은 것과 흰 것의 차이는?",opts:["없다","검은 것이 짧고 흰 것이 길다","같다","검은 것이 세다"],ans:1,ex:"검은 음표(4분음표 등)는 짧고, 흰 음표(2분음표·온음표)는 길어요."},
+      {q:"악보에서 '반복도돌이표' 안의 음악은?",opts:["1번만","2번","3번","4번"],ans:1,ex:"반복도돌이표가 있으면 그 구간을 2번 연주해요."},
+      {q:"노래를 부를 때 바른 자세는?",opts:["구부리고 앉아서","등을 펴고 바르게 앉아서","누워서","엎드려서"],ans:1,ex:"노래할 때는 등을 펴고 바르게 앉거나 서야 좋은 소리가 나요."},
+      {q:"합창에서 '소프라노'는?",opts:["가장 낮은 여성 음역","가장 높은 여성 음역","가장 낮은 남성 음역","가장 높은 남성 음역"],ans:1,ex:"소프라노는 여성 합창단 중 가장 높은 음역이에요."},
+      {q:"합창에서 '베이스'는?",opts:["가장 높은 여성 음역","가장 낮은 여성 음역","가장 높은 남성 음역","가장 낮은 남성 음역"],ans:3,ex:"베이스는 남성 합창 중 가장 낮은 음역이에요."},
+      {q:"음악의 빠르기를 나타내는 방법이 아닌 것은?",opts:["메트로놈 숫자","빠르기말","음자리표","단어(Allegro 등)"],ans:2,ex:"음자리표는 음역을 나타내요. 빠르기는 메트로놈·빠르기말·단어로 나타내요."},
+      {q:"악기를 직접 연주해 음악을 만드는 활동은?",opts:["감상","기보","연주","작곡"],ans:2,ex:"악기를 직접 다루어 음악을 내는 것이 연주예요."},
+      {q:"음악을 들으며 즐기는 활동은?",opts:["연주","감상","작곡","기보"],ans:1,ex:"음악을 귀로 듣고 즐기는 것을 감상이라 해요."},
+      {q:"음악을 만들어내는 행위는?",opts:["연주","감상","작곡","기보"],ans:2,ex:"새로운 음악을 만드는 것을 작곡이라 해요."},
+      {q:"악보에 음을 기록하는 것은?",opts:["연주","감상","작곡","기보"],ans:3,ex:"악보에 음을 기록하는 것을 기보라 해요."},
+      {q:"북은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:2,ex:"북은 두드려서 소리 내는 타악기예요."},
+      {q:"오카리나는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:1,ex:"오카리나는 입으로 불어서 소리 내는 관악기예요."},
+      {q:"음악에서 '음색'이란?",opts:["음의 높낮이","음의 길고 짧음","악기마다 다른 소리의 특성","음의 세기"],ans:2,ex:"음색은 악기나 목소리마다 다른 소리의 특성·느낌이에요."},
+      {q:"첼로는 어떤 악기인가요?",opts:["관악기","타악기","현악기","건반악기"],ans:2,ex:"첼로는 현(줄)을 활로 켜서 소리 내는 현악기예요."},
+      {q:"플루트는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:1,ex:"플루트는 입으로 불어서 소리 내는 관악기예요."},
+      {q:"'ff(포르티시모)'는?",opts:["아주 세게","세게","보통","여리게"],ans:0,ex:"ff(fortissimo)는 '아주 세게'를 의미해요."},
+      {q:"'pp(피아니시모)'는?",opts:["아주 세게","세게","아주 여리게","여리게"],ans:2,ex:"pp(pianissimo)는 '아주 여리게'를 의미해요."},
+      {q:"악보에서 오선(五線)이란?",opts:["3개의 평행선","4개의 평행선","5개의 평행선","6개의 평행선"],ans:2,ex:"오선은 악보에 음을 기록하기 위한 5개의 평행선이에요."},
+      {q:"음표의 길이가 가장 긴 것은?",opts:["온음표","2분음표","4분음표","8분음표"],ans:0,ex:"온음표가 4박으로 가장 길어요."},
+      {q:"음표의 길이가 가장 짧은 것은?",opts:["온음표","2분음표","4분음표","8분음표"],ans:3,ex:"8분음표가 1/2박으로 가장 짧아요."},
+      {q:"'Moderato(모데라토)'는?",opts:["빠르게","느리게","보통 빠르기로","아주 빠르게"],ans:2,ex:"Moderato는 '보통 빠르기로'를 의미해요."},
+      {q:"악기 종류 중 '현악기'에 해당하지 않는 것은?",opts:["바이올린","가야금","기타","트럼펫"],ans:3,ex:"트럼펫은 관악기예요. 바이올린·가야금·기타는 현악기예요."},
+      {q:"악기 종류 중 '관악기'에 해당하지 않는 것은?",opts:["리코더","트럼펫","플루트","장구"],ans:3,ex:"장구는 타악기예요. 리코더·트럼펫·플루트는 관악기예요."},
+      {q:"음악에서 '박'이란?",opts:["음의 높낮이","음악의 기본 단위 시간","음의 세기","음의 색깔"],ans:1,ex:"박은 음악에서 규칙적으로 반복되는 기본 단위 시간이에요."},
+      {q:"노래를 부를 때 발음이 중요한 이유는?",opts:["더 크게 들려서","가사를 정확히 전달하기 위해","음정이 높아져서","빨리 부를 수 있어서"],ans:1,ex:"정확한 발음은 노래의 가사를 듣는 사람에게 잘 전달해요."},
+      {q:"합주란?",opts:["한 사람이 혼자 연주","두 명 이상이 함께 연주","하나의 악기로만 연주","노래 없이 연주"],ans:1,ex:"합주는 두 명 이상이 함께 악기를 연주하는 것이에요."},
+      {q:"반주란?",opts:["노래 없이 악기만","노래나 연주를 도와주는 악기 연주","모든 악기가 같이","혼자 연주"],ans:1,ex:"반주는 노래나 주요 악기를 도와주는 악기 연주예요."},
+      {q:"음악에서 '형식'이란?",opts:["악기의 종류","음악의 구조나 틀","빠르기","셈여림"],ans:1,ex:"형식은 음악이 어떻게 구성·반복되는지 나타내는 구조예요."},
+      {q:"2박자에서 강박과 약박의 순서는?",opts:["강-강","약-강","강-약","약-약"],ans:2,ex:"2박자는 '강-약'이 반복돼요."},
+      {q:"3박자에서 박의 순서는?",opts:["강-약-약","강-강-약","약-강-약","약-약-강"],ans:0,ex:"3박자는 '강-약-약'이 반복돼요."},
+      {q:"악기 중 건반악기가 아닌 것은?",opts:["피아노","오르간","첼레스타","기타"],ans:3,ex:"기타는 줄(현)을 튕기는 현악기예요."},
+      {q:"음악에서 '코다(Coda)'란?",opts:["곡의 처음 부분","곡의 중간 반복","곡의 마무리 부분","곡의 빠르기 표시"],ans:2,ex:"코다(Coda)는 곡의 마무리 부분을 의미해요."},
+      {q:"'D.C.(다카포)'는?",opts:["다음 단으로","처음부터 반복","Fine(끝)까지","중간으로"],ans:1,ex:"D.C.(Da Capo)는 '처음부터 다시'를 의미해요."},
+      {q:"음악 감상할 때 바른 자세는?",opts:["떠들기","집중해서 듣기","게임하기","자기"],ans:1,ex:"음악 감상은 집중해서 귀 기울여 듣는 것이 중요해요."},
+      {q:"'Fine'의 뜻은?",opts:["처음부터","끝","반복","빠르게"],ans:1,ex:"Fine(피네)는 '끝'을 의미해요. 여기서 연주를 멈춰요."},
+      {q:"국악에서 '판소리'란?",opts:["여러 명이 함께 부르는 노래","북(고수)의 반주에 맞춰 소리꾼이 노래·말·몸짓으로 공연하는 것","악기 연주","춤만 추는 것"],ans:1,ex:"판소리는 소리꾼이 고수(북)의 반주에 맞춰 이야기를 노래·말·몸짓으로 표현해요."},
+      {q:"장구의 각 면을 부르는 이름은?",opts:["앞면·뒷면","오른편·왼편","북편·채편","위편·아래편"],ans:2,ex:"장구는 북편(왼쪽, 낮은 소리)과 채편(오른쪽, 높은 소리)으로 불러요."},
+      {q:"합창단에서 '알토'는?",opts:["여성 높은 음역","여성 낮은 음역","남성 높은 음역","남성 낮은 음역"],ans:1,ex:"알토는 여성 합창 중 낮은 음역이에요."},
+      {q:"악보에서 '도'의 위치는?",opts:["맨 위 선","맨 아래 선","가운데 선","아래쪽 간(오선 아래 덧줄)"],ans:3,ex:"높은음자리표에서 도는 오선 아래 첫 번째 덧줄(가선)에 위치해요."},
+      {q:"전래 동요란?",opts:["외국에서 온 노래","옛날부터 전해 내려온 어린이 노래","최근에 만든 노래","어른이 부르는 노래"],ans:1,ex:"전래 동요는 옛날부터 민간에서 전해 내려오는 어린이 노래예요."},
+      {q:"악보를 읽을 때 왼쪽에서 오른쪽으로 읽는 이유는?",opts:["악보가 그렇게 생겨서","음악은 시간 순서대로 연주하기 때문","오른손이 더 편해서","관습이라서"],ans:1,ex:"음악은 시간의 흐름에 따라 연주하므로 악보도 왼쪽에서 오른쪽으로 읽어요."},
+      {q:"단소는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:1,ex:"단소는 입으로 불어서 소리 내는 우리나라 전통 관악기예요."},
+      {q:"피리(전통악기)는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:1,ex:"피리는 입으로 불어서 소리 내는 전통 관악기예요."},
+      {q:"해금은 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:0,ex:"해금은 줄(현)을 활로 켜서 소리 내는 전통 현악기예요."},
+      {q:"거문고는 어떤 악기인가요?",opts:["현악기","관악기","타악기","건반악기"],ans:0,ex:"거문고는 줄을 술대로 뜯거나 퉁겨서 소리 내는 전통 현악기예요."},
+      {q:"악기 소리가 나는 원리는?",opts:["빛이 반사되어","물질의 진동으로","열이 발생해서","화학 반응으로"],ans:1,ex:"모든 소리는 물질의 진동으로 만들어져요."},
+      {q:"음악에서 '리타르단도(rit.)'는?",opts:["점점 빠르게","점점 느리게","점점 세게","점점 여리게"],ans:1,ex:"리타르단도(ritardando)는 '점점 느리게'를 의미해요."},
+      {q:"음악에서 '아첼레란도(accel.)'는?",opts:["점점 빠르게","점점 느리게","점점 세게","점점 여리게"],ans:0,ex:"아첼레란도(accelerando)는 '점점 빠르게'를 의미해요."},
+      {q:"'Vivace(비바체)'는?",opts:["매우 느리게","느리게","보통 빠르기","빠르고 활발하게"],ans:3,ex:"Vivace는 '빠르고 활발하게'를 의미해요."},
+      {q:"음악 시간에 악기를 다룰 때 가장 중요한 것은?",opts:["빠르게 연주하기","정확한 음정과 박자","크게 소리내기","화려하게 꾸미기"],ans:1,ex:"악기를 연주할 때는 정확한 음정과 박자가 가장 기본이에요."},
+      {q:"'Piano(악기 이름)'와 'piano(셈여림)'의 공통점은?",opts:["없다","이탈리아어","둘 다 악기","둘 다 세게"],ans:1,ex:"둘 다 이탈리아어에서 왔어요. 악기 이름 피아노도 '여리게'라는 의미에서 유래했어요."}
     ]
   }
 };
 
-const bestScores = {};
-let curSubj = null, shuffledQs = [], curIdx = 0, score = 0, wrongQs = [], answered = false;
-
-function $(id) { return document.getElementById(id); }
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  $(id).classList.add('active');
-  window.scrollTo(0, 0);
+/* ═══════════════════════════════════════════════
+   날짜 & 시드 함수
+═══════════════════════════════════════════════ */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+function todayLabel() {
+  const d = new Date();
+  const days = ['일','월','화','수','목','금','토'];
+  return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+days[d.getDay()]+')';
+}
+function makeSeed(subjKey) {
+  const dk = todayKey().replace(/-/g,'');
+  let h = parseInt(dk) + subjKey.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  h = ((h>>16)^h)*0x45d9f3b; h = ((h>>16)^h)*0x45d9f3b; return ((h>>16)^h)>>>0;
+}
+function seededRandom(seed) {
+  let s=seed;
+  return ()=>{ s=(s*1664525+1013904223)&0xffffffff; return (s>>>0)/0xffffffff; };
+}
+function seededShuffle(arr, seed) {
+  const a=[...arr], rng=seededRandom(seed);
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
   return a;
 }
 
+/* ═══════════════════════════════════════════════
+   localStorage 헬퍼
+═══════════════════════════════════════════════ */
+function loadState() {
+  const raw = localStorage.getItem('quizState');
+  const defaultState = { totalPoints:0, history:[], todayKey:'', todayPoints:0, todayDone:{} };
+  if(!raw) return defaultState;
+  try {
+    const s = JSON.parse(raw);
+    // 날짜가 바뀌면 오늘 포인트·진도 초기화
+    if(s.todayKey !== todayKey()) {
+      s.todayKey = todayKey();
+      s.todayPoints = 0;
+      s.todayDone = {};
+    }
+    return { ...defaultState, ...s };
+  } catch(e) { return defaultState; }
+}
+function saveState(s) { localStorage.setItem('quizState', JSON.stringify(s)); }
+
+/* ═══════════════════════════════════════════════
+   앱 상태
+═══════════════════════════════════════════════ */
+let state = loadState();
+state.todayKey = todayKey(); // 보정
+saveState(state);
+
+let curSubj=null, shuffledQs=[], curIdx=0, score=0, wrongQs=[], answered=false;
+
+function $(id){return document.getElementById(id);}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active'); window.scrollTo(0,0);
+}
+
+/* ═══════════════════════════════════════════════
+   포인트 계산
+═══════════════════════════════════════════════ */
+function calcTodayAvg() {
+  const done = Object.values(state.todayDone);
+  if(!done.length) return null;
+  return Math.round(done.reduce((a,b)=>a+b,0)/done.length);
+}
+function allSubjectsDone() {
+  return Object.keys(SUBJECTS).every(k => state.todayDone[k] !== undefined);
+}
+function awardPoints() {
+  if(!allSubjectsDone()) return null;
+  const dateKey = todayKey();
+  const alreadyAwarded = state.history.find(h=>h.date===dateKey);
+  if(alreadyAwarded) return null; // 이미 지급됨
+  const avg = calcTodayAvg();
+  let pts = 0;
+  if(avg >= 80) pts = 200;
+  else if(avg >= 60) pts = 100;
+  state.totalPoints += pts;
+  state.todayPoints += pts;
+  state.history.unshift({ date:dateKey, avg, pts, detail:Object.assign({},state.todayDone) });
+  saveState(state);
+  return { pts, avg };
+}
+
+/* ═══════════════════════════════════════════════
+   홈 화면 빌드
+═══════════════════════════════════════════════ */
 function buildHome() {
+  $('home-date').textContent = '📅 ' + todayLabel();
+  $('pt-today').innerHTML = state.todayPoints + '<span class="point-unit">P</span>';
+  $('pt-total').innerHTML = state.totalPoints + '<span class="point-unit">P</span>';
+
+  const subjKeys = Object.keys(SUBJECTS);
+  const doneCount = subjKeys.filter(k=>state.todayDone[k]!==undefined).length;
+  const pct = Math.round(doneCount/subjKeys.length*100);
+  $('total-prog').style.width = pct+'%';
+  $('total-pct').textContent = pct+'%';
+
   const grid = $('subj-grid');
   grid.innerHTML = '';
-  const total = Object.keys(SUBJECTS).length;
-  const done = Object.keys(bestScores).length;
-  const pct = Math.round(done / total * 100);
-  $('total-prog').style.width = pct + '%';
-  $('total-pct').textContent = pct + '%';
-
-  Object.entries(SUBJECTS).forEach(([key, s]) => {
-    const best = bestScores[key] ?? null;
+  Object.entries(SUBJECTS).forEach(([key,s])=>{
+    const isDone = state.todayDone[key] !== undefined;
+    const todayScore = state.todayDone[key] ?? null;
     const card = document.createElement('div');
-    card.className = 'subj-card';
-    card.style.setProperty('--subj-color', s.bg);
+    card.className = 'subj-card' + (isDone?' done-today':'');
     card.innerHTML = `
+      ${isDone?'<span class="done-check">✅</span>':''}
       <div class="subj-icon-wrap" style="background:${s.iconBg}">${s.icon}</div>
       <div class="subj-name">${s.name}</div>
-      <div class="subj-count">${s.qs.length}문제</div>
-      <div class="subj-best" style="color:${s.barColor}">${best !== null ? '최고 ' + best + '점' : '도전해보세요!'}</div>
-      <div class="subj-bar-bg"><div class="subj-bar-fill" style="background:${s.barColor};width:${best !== null ? best : 0}%"></div></div>
+      <div class="subj-count">오늘의 문제 5개</div>
+      <div class="subj-best" style="color:${s.barColor}">${todayScore!==null?'오늘 '+todayScore+'점':'도전해보세요!'}</div>
+      <div class="subj-bar-bg"><div class="subj-bar-fill" style="background:${s.barColor};width:${todayScore!==null?todayScore:0}%"></div></div>
     `;
-    card.onclick = () => startQuiz(key);
+    card.onclick = ()=>startQuiz(key);
     grid.appendChild(card);
   });
 }
 
+/* ═══════════════════════════════════════════════
+   퀴즈 시작
+═══════════════════════════════════════════════ */
 function startQuiz(key) {
-  curSubj = key;
-  const s = SUBJECTS[key];
-  shuffledQs = shuffle(s.qs).slice(0, 5);
-  curIdx = 0; score = 0; wrongQs = []; answered = false;
-  $('qz-title').textContent = s.icon + ' ' + s.name;
-  $('qz-score').textContent = '0점';
+  curSubj=key;
+  const s=SUBJECTS[key];
+  const seed=makeSeed(key);
+  shuffledQs=seededShuffle(s.qs,seed).slice(0,5);
+  curIdx=0; score=0; wrongQs=[]; answered=false;
+  $('qz-title').textContent=s.icon+' '+s.name;
+  $('qz-score').textContent='0점';
   showScreen('quiz');
   renderQ();
 }
 
 function renderQ() {
-  answered = false;
-  const q = shuffledQs[curIdx];
-  const total = shuffledQs.length;
-  $('qz-step').textContent = (curIdx + 1) + ' / ' + total + ' 문제';
-  $('next-btn').textContent = curIdx === total - 1 ? '결과 보기 🎉' : '다음 문제 →';
-  $('next-btn').disabled = true;
+  answered=false;
+  const q=shuffledQs[curIdx];
+  const total=shuffledQs.length;
+  $('qz-step').textContent=(curIdx+1)+' / '+total+' 문제';
+  $('next-btn').textContent=curIdx===total-1?'결과 보기 🎉':'다음 문제 →';
+  $('next-btn').disabled=true;
 
-  const dots = $('qz-dots');
-  dots.innerHTML = '';
-  for (let i = 0; i < total; i++) {
-    const d = document.createElement('div');
-    d.className = 'qz-dot' + (i < curIdx ? ' done' : i === curIdx ? ' current' : '');
+  const dots=$('qz-dots'); dots.innerHTML='';
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='qz-dot'+(i<curIdx?' done':i===curIdx?' current':'');
     dots.appendChild(d);
   }
-
-  $('q-text').textContent = q.q;
-  $('fb-area').innerHTML = '';
-
-  const opts = $('opts-list');
-  opts.innerHTML = '';
-  const labels = ['①','②','③','④'];
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.innerHTML = `<span class="opt-num">${labels[i]}</span><span>${opt}</span>`;
-    btn.onclick = () => pickAnswer(i, btn, q);
+  $('q-text').textContent=q.q; $('fb-area').innerHTML='';
+  const opts=$('opts-list'); opts.innerHTML='';
+  const labels=['①','②','③','④'];
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.innerHTML=`<span class="opt-num">${labels[i]}</span><span>${opt}</span>`;
+    btn.onclick=()=>pickAnswer(i,btn,q);
     opts.appendChild(btn);
   });
-
-  $('q-area').scrollTop = 0;
+  $('q-area').scrollTop=0;
 }
 
-function pickAnswer(idx, btn, q) {
-  if (answered) return;
-  answered = true;
-  document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-
-  const ok = idx === q.ans;
-  btn.classList.add(ok ? 'correct' : 'wrong');
-  if (!ok) document.querySelectorAll('.opt-btn')[q.ans].classList.add('correct');
-  if (ok) score += 20; else wrongQs.push(q);
-  $('qz-score').textContent = score + '점';
-
-  const fb = document.createElement('div');
-  fb.className = 'fb-card ' + (ok ? 'correct' : 'wrong');
-  fb.innerHTML = `<span class="fb-icon">${ok ? '🎉' : '😅'}</span><span>${ok ? '정답이에요! ' : '아쉬워요! '}${q.ex}</span>`;
+function pickAnswer(idx,btn,q){
+  if(answered)return; answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const ok=idx===q.ans;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.opt-btn')[q.ans].classList.add('correct');
+  if(ok) score+=20; else wrongQs.push(q);
+  $('qz-score').textContent=score+'점';
+  const fb=document.createElement('div');
+  fb.className='fb-card '+(ok?'correct':'wrong');
+  fb.innerHTML=`<span class="fb-icon">${ok?'🎉':'😅'}</span><span>${ok?'정답이에요! ':'아쉬워요! '}${q.ex}</span>`;
   $('fb-area').appendChild(fb);
-  $('next-btn').disabled = false;
-
-  setTimeout(() => {
-    $('q-area').scrollTo({ top: $('q-area').scrollHeight, behavior: 'smooth' });
-  }, 100);
+  $('next-btn').disabled=false;
+  setTimeout(()=>{ $('q-area').scrollTo({top:$('q-area').scrollHeight,behavior:'smooth'}); },100);
 }
 
-$('next-btn').onclick = () => {
-  curIdx++;
-  if (curIdx >= shuffledQs.length) showResult();
-  else renderQ();
-};
+$('next-btn').onclick=()=>{ curIdx++; if(curIdx>=shuffledQs.length) showResult(); else renderQ(); };
+$('back-btn').onclick=()=>{ showScreen('home'); buildHome(); };
 
-$('back-btn').onclick = () => { showScreen('home'); buildHome(); };
+/* ═══════════════════════════════════════════════
+   결과 화면
+═══════════════════════════════════════════════ */
+function showResult(){
+  // 오늘 점수 기록 (최고점만)
+  if(state.todayDone[curSubj]===undefined || score>state.todayDone[curSubj]) {
+    state.todayDone[curSubj]=score;
+    saveState(state);
+  }
 
-function showResult() {
-  if (bestScores[curSubj] == null || score > bestScores[curSubj]) bestScores[curSubj] = score;
   showScreen('result');
-  const total = shuffledQs.length, correct = total - wrongQs.length;
-  $('r-score').textContent = score + '점';
-  $('r-sub').textContent = total + '문제 중 ' + correct + '개 정답';
+  const total=shuffledQs.length, correct=total-wrongQs.length;
+  $('r-score').textContent=score+'점';
+  $('r-sub').textContent=total+'문제 중 '+correct+'개 정답';
 
-  let stars = '⭐⭐⭐', msg = '완벽해요! 대단해요! 🏆';
-  if (score < 40) { stars = '⭐'; msg = '조금 더 공부해볼까요? 💪'; }
-  else if (score < 80) { stars = '⭐⭐'; msg = '잘하고 있어요! 조금만 더! 🌟'; }
-  $('r-stars').textContent = stars;
-  $('r-msg').textContent = msg;
+  let stars='⭐⭐⭐', msg='완벽해요! 대단해요! 🏆';
+  if(score<40){stars='⭐';msg='조금 더 공부해볼까요? 💪';}
+  else if(score<80){stars='⭐⭐';msg='잘하고 있어요! 조금만 더! 🌟';}
+  $('r-stars').textContent=stars; $('r-msg').textContent=msg;
 
-  const ws = $('wrong-section');
-  if (wrongQs.length > 0) {
-    ws.style.display = 'block';
-    $('wrong-list').innerHTML = wrongQs.map(q =>
+  // 포인트 배너
+  const award = awardPoints();
+  const banner=$('point-banner');
+  if(award && award.pts>0){
+    banner.className='point-banner earn';
+    $('pb-icon').textContent=award.pts===200?'🏆':'⭐';
+    $('pb-title').textContent='+'+award.pts+' 포인트 획득!';
+    $('pb-sub').textContent='평균 '+award.avg+'점 | 누적 '+state.totalPoints+'P';
+  } else if(award && award.pts===0){
+    banner.className='point-banner none';
+    $('pb-icon').textContent='😢';
+    $('pb-title').textContent='포인트 없음 (평균 '+award.avg+'점)';
+    $('pb-sub').textContent='60점 이상이면 포인트를 받을 수 있어요!';
+  } else if(allSubjectsDone()){
+    const dateKey=todayKey();
+    const already=state.history.find(h=>h.date===dateKey);
+    banner.className='point-banner earn';
+    $('pb-icon').textContent='✅';
+    $('pb-title').textContent='오늘 포인트 이미 지급됨';
+    $('pb-sub').textContent='누적 '+state.totalPoints+'P';
+  } else {
+    const remaining=Object.keys(SUBJECTS).filter(k=>state.todayDone[k]===undefined).length;
+    banner.className='point-banner none';
+    $('pb-icon').textContent='📚';
+    $('pb-title').textContent='남은 과목 '+remaining+'개를 더 풀어요!';
+    $('pb-sub').textContent='모든 과목 완료 시 포인트 지급';
+  }
+
+  // 틀린 문제
+  const ws=$('wrong-section');
+  if(wrongQs.length>0){
+    ws.style.display='block';
+    $('wrong-list').innerHTML=wrongQs.map(q=>
       `<div class="wrong-item">📌 ${q.q}<br><span class="wrong-ans">✅ 정답: ${q.opts[q.ans]}</span></div>`
     ).join('');
-  } else {
-    ws.style.display = 'none';
-  }
+  } else ws.style.display='none';
 }
 
-$('retry-btn').onclick = () => startQuiz(curSubj);
-$('home-btn').onclick = () => { showScreen('home'); buildHome(); };
+$('retry-btn').onclick=()=>startQuiz(curSubj);
+$('home-btn').onclick=()=>{ showScreen('home'); buildHome(); };
 
+/* ═══════════════════════════════════════════════
+   히스토리 화면
+═══════════════════════════════════════════════ */
+function buildHistory(){
+  $('hs-total').innerHTML=state.totalPoints+'<span style="font-size:14px">P</span>';
+  $('hs-days').innerHTML=state.history.length+'<span style="font-size:14px">일</span>';
+
+  const list=$('hist-list');
+  if(!state.history.length){
+    list.innerHTML='<div class="hist-empty">아직 기록이 없어요.<br>퀴즈를 완료하면 여기에 쌓여요!</div>';
+    return;
+  }
+  list.innerHTML=state.history.map(h=>{
+    const cls=h.pts>=200?'pts-200':h.pts>=100?'pts-100':'pts-0';
+    const icon=h.pts>=200?'🏆':h.pts>=100?'⭐':'😢';
+    return `<div class="hist-item">
+      <div class="hist-item-date">${h.date}</div>
+      <div class="hist-item-info">평균 ${h.avg}점<br>모든 과목 완료</div>
+      <div class="hist-item-pts ${cls}">${icon} ${h.pts>0?'+'+h.pts:'0'}P</div>
+    </div>`;
+  }).join('');
+}
+
+$('hist-btn').onclick=()=>{ buildHistory(); showScreen('history'); };
+$('hist-back').onclick=()=>{ showScreen('home'); buildHome(); };
+
+/* 시작 */
 buildHome();
 </script>
 </body>
